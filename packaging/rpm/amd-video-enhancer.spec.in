@@ -3,7 +3,7 @@ Version: @RPM_VERSION@
 Release: @RPM_RELEASE@
 Summary: Linux-first AMD GPU video enhancement application
 License: MIT
-URL: https://github.com/Rolaand-Jayz/AMD-V.E.-
+URL: https://github.com/Rolaand-Jayz/AMD-VE
 BuildArch: x86_64
 Source1: @RPM_FILELIST_NAME@
 AutoReqProv: no
