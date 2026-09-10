@@ -6,7 +6,7 @@ Architecture: amd64
 Maintainer: @PACKAGE_MAINTAINER@
 Depends: bash
 Recommends: ffmpeg
-Homepage: https://github.com/Rolaand-Jayz/AMD-V.E.-
+Homepage: https://github.com/Rolaand-Jayz/AMD-VE
 Description: Linux-first AMD GPU video enhancement application
  Native package built from the canonical staged release root.
  .
