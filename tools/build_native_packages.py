@@ -20,7 +20,7 @@ RELEASE_NOTICE = (
     "Beta release. Primarily verified on Arch Linux on a Ryzen 7 7800X3D + Radeon RX 7900 GRE. "
     "Other distro packages remain preview builds and should be validated on the target system."
 )
-DEFAULT_RELEASE_BASE_URL = "https://github.com/Rolaand-Jayz/AMD-V.E.-/releases/download/{tag}"
+DEFAULT_RELEASE_BASE_URL = "https://github.com/Rolaand-Jayz/AMD-VE/releases/download/{tag}"
 
 
 def run(*command: str, cwd: Optional[pathlib.Path] = None, env: Optional[Dict[str, str]] = None) -> None:
