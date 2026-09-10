@@ -1,5 +1,33 @@
 # AMD Video Enhancer
 
+> **Linux-first · AMD-first · Experimental beta**
+
+AMD-VE is a native C++ video-enhancement application for AMD GPUs. It combines ROCm, MiGraphX, HIP, Vulkan, and FFmpeg to restore, clean, and upscale video through an AMD-oriented inference and media pipeline.
+
+## Why it matters
+
+This project is both an application and a systems-integration case study. When the application exposed performance and integration limits in the underlying inference stack, I investigated MiGraphX itself, implemented GPU-side optimizations, measured them under stated conditions, submitted the work upstream, and integrated a customized MiGraphX toolchain into the application.
+
+The work was AI-assisted, but the engineering responsibility remained human: define the problem, inspect the stack, test hypotheses, benchmark changes, preserve limitations, and verify the result.
+
+## Verified scope
+
+- Public beta: `v0.1.0-beta.1`
+- Primary verified system: Arch Linux, Ryzen 7 7800X3D, Radeon RX 7900 GRE
+- Primary verified path: MiGraphX inference with FFmpeg media processing
+- Other backends and package targets are documented by support tier; packaging reach is not proof of universal compatibility
+- Experimental software: not presented as production-ready
+
+## MiGraphX optimization case study
+
+A wavefront-aware pointwise launch-bound change reduced oversized Wave32 PReLU-heavy launches from a `local=1024`-style geometry to `local=128`. On an OpenProteus FP16 workload on gfx1100, the isolated MiGraphX workload measured approximately **11.80 ms → 8.31 ms total** and **11.90 ms → 8.39 ms mean**, roughly a **30% reduction relative to the preceding optimization-series baseline**. This is a workload-specific result, not a claim that MiGraphX as a whole became 30% faster.
+
+Upstream review status and the exact benchmark provenance are linked from the repository documentation and should be read before generalizing the result.
+
+## Project lineage
+
+AMD-VE established the AMD-first application and lower-level inference-stack work. That led to deeper FSR reverse engineering and eventually Temporal Forge's more formal research and validation process.
+
 AMD Video Enhancer is a Linux-first video enhancer that uses ML and AI models to restore, clean, and upscale footage on AMD GPUs. It is intentionally built around AMD's ROCm, MiGraphX, HIP, and Vulkan stack rather than NVIDIA/CUDA, because the whole point of this project is to give AMD hardware a first-class experience instead of treating it like an afterthought.
 
 ## Release snapshot
