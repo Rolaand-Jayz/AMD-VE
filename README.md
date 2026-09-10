@@ -22,7 +22,7 @@ The work was AI-assisted, but the engineering responsibility remained human: def
 
 A wavefront-aware pointwise launch-bound change reduced oversized Wave32 PReLU-heavy launches from a `local=1024`-style geometry to `local=128`. On an OpenProteus FP16 workload on gfx1100, the isolated MiGraphX workload measured approximately **11.80 ms → 8.31 ms total** and **11.90 ms → 8.39 ms mean**, roughly a **30% reduction relative to the preceding optimization-series baseline**. This is a workload-specific result, not a claim that MiGraphX as a whole became 30% faster.
 
-Upstream review status and the exact benchmark provenance are linked from the repository documentation and should be read before generalizing the result.
+The related upstream work is split across [AMDMIGraphX #4707](https://github.com/ROCm/AMDMIGraphX/pull/4707), [#4708](https://github.com/ROCm/AMDMIGraphX/pull/4708), [#4709](https://github.com/ROCm/AMDMIGraphX/pull/4709), and [#4710](https://github.com/ROCm/AMDMIGraphX/pull/4710), all currently open. The earlier umbrella proposal, [#4668](https://github.com/ROCm/AMDMIGraphX/pull/4668), is closed and was not merged. Read the repository's benchmark provenance before generalizing this result.
 
 ## Project lineage
 
@@ -87,17 +87,15 @@ To be careful and honest: this README does **not** claim that nobody anywhere ha
 
 If you want the blunt version of why that matters beyond this app itself, read [`docs/WHY_THIS_PROJECT_MATTERS.md`](docs/WHY_THIS_PROJECT_MATTERS.md).
 
-## Yes, this project is 100% vibe coded
+## AI-assisted engineering and verification
 
-And here is the part that makes the whole thing even wilder: this app is 100% vibe coded.
+This project was built with substantial AI assistance, including in an under-documented AMD/ROCm/MiGraphX problem space. That assistance expanded the amount of unfamiliar systems work I could investigate; it did not replace human responsibility for requirements, source inspection, implementation choices, benchmarking, review, and verification.
 
-Not “vibe coded by a veteran C++ graphics engineer who already knew the stack by heart.” Vibe coded by a zero-knowledge vibe coder. That is part of the point of the project too: not just to build useful software, but to prove that a difficult, AMD-first, systems-heavy application can be explored, assembled, tested, documented, and improved in public rather than being locked behind specialist gatekeeping.
-
-That point gets even sharper when you connect it to the MiGraphX situation above. The usual comfort argument is that AI can only regurgitate what it has already seen, so deeply novel or under-documented work is supposedly protected. This repository is evidence that the story is not that simple. Here, AI-assisted work had to operate inside a stack with thin docs, sparse examples, immature edges, packaging problems, runtime-validation problems, and performance questions that did not come with a neat cookbook.
+The work had to operate inside a stack with thin docs, sparse examples, immature edges, packaging problems, runtime-validation problems, and performance questions that did not come with a neat cookbook.
 
 In other words: the AI was not just copying a familiar pattern from a saturated ecosystem. It helped move work forward in an area where the public examples are scarce, the documentation is incomplete, and parts of the surrounding software stack still needed to be pushed, organized, and made more usable. That is an important distinction.
 
-This does **not** make human judgment irrelevant. It does mean that the reassuring line “AI only copies what already exists, so real software engineering is safe” is a much weaker defense than many developers want it to be. If a zero-knowledge vibe coder and AI can produce a real, inspectable application in an under-documented MiGraphX/ROCm problem space, then the ceiling on AI-assisted development is already higher than a lot of people are comfortable admitting.
+The resulting value is the combination: AI-assisted implementation, independent inspection, measured results, explicit limitations, and iterative remediation.
 
 ## What is in the repo today
 
