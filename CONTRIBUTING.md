@@ -133,3 +133,7 @@ Until this project exits beta:
 - Arch Linux is the only claimed tested platform
 - All other distro packages are experimental
 - Regressions in packaging or startup isolation should be treated as high priority
+
+## Conduct
+
+This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md).
