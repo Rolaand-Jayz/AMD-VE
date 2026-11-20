@@ -1,0 +1,16 @@
+{
+  "id": "restore_video",
+  "label": "Restore Video",
+  "purpose": "Invalid missing default",
+  "default_capabilities": [
+    "upscale"
+  ],
+  "visible_controls": [
+    "family"
+  ],
+  "preview_behavior": "split_wipe",
+  "output_behavior": "normal_video",
+  "experimental": false,
+  "advanced_only": false,
+  "cli_profile_key": "restore-video"
+}

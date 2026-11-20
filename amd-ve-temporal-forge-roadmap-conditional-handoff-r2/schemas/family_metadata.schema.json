@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://amd-ve.local/schemas/family_metadata.schema.json",
+  "title": "AMD-VE Model Family Metadata",
+  "type": "object",
+  "required": [
+    "family_id",
+    "family_name",
+    "display_purpose",
+    "content_type",
+    "speed_tier",
+    "quality_tier",
+    "migraphx_fit",
+    "visible_default",
+    "advanced_only",
+    "capabilities",
+    "safe_defaults",
+    "fused",
+    "selective"
+  ],
+  "properties": {
+    "family_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+    },
+    "family_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "display_purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content_type": {
+      "enum": [
+        "general",
+        "live_action",
+        "anime",
+        "archival",
+        "stereo",
+        "motion",
+        "experimental"
+      ]
+    },
+    "speed_tier": {
+      "enum": [
+        "S",
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "quality_tier": {
+      "enum": [
+        "S",
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "migraphx_fit": {
+      "enum": [
+        "S",
+        "A",
+        "B",
+        "C",
+        "D",
+        "unknown"
+      ]
+    },
+    "visible_default": {
+      "type": "boolean"
+    },
+    "advanced_only": {
+      "type": "boolean"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/capability"
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "safe_defaults": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/capability"
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "fused": {
+      "type": "boolean"
+    },
+    "selective": {
+      "type": "boolean"
+    },
+    "strength_controls": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/strength_control"
+      }
+    },
+    "model_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "capability": {
+      "enum": [
+        "restore_compression",
+        "remove_artifacts",
+        "denoise",
+        "deblur",
+        "dehalo",
+        "color_fix",
+        "upscale",
+        "sharpen",
+        "stereo_3d",
+        "interpolate"
+      ]
+    },
+    "strength_control": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "min",
+        "max",
+        "default",
+        "step"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "label": {
+          "type": "string"
+        },
+        "capability": {
+          "$ref": "#/$defs/capability"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "default": {
+          "type": "number"
+        },
+        "step": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$comment": "Semantic validator must enforce safe_defaults subset of capabilities and strength default range.",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "advanced_only": {
+            "const": true
+          }
+        },
+        "required": [
+          "advanced_only"
+        ]
+      },
+      "then": {
+        "properties": {
+          "visible_default": {
+            "const": false
+          }
+        }
+      }
+    }
+  ]
+}

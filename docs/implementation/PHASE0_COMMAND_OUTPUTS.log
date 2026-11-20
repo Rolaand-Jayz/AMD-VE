@@ -1,0 +1,343 @@
+# PHASE0_COMMAND_OUTPUTS.log
+
+Generated: 2026-05-07
+Auditor: Crush (automated agent)
+
+## Command
+git rev-parse --show-toplevel
+
+## Output
+/home/user/workspace/amd-ve
+
+## Exit status: 0
+
+## Command
+git status --short
+
+## Output
+?? amd-ve-temporal-forge-roadmap-conditional-handoff-r2/
+?? docs/implementation/
+
+## Exit status: 0
+
+Archive media note: benchmarks/ave_benchmark_960x540_20s.mp4 may appear modified, missing, or altered in transfer archives because benchmark media was removed or changed to save space. This does not change source-code handoff status. The benchmark file exists in this local repo but its state in a transfer archive is not proof of benchmark reproducibility.
+
+## Command
+git branch --show-current
+
+## Output
+main
+
+## Exit status: 0
+
+## Command
+git rev-parse HEAD
+
+## Output
+fef8c8adfbe61da0b05d154ed34fcdee9b0298d1
+
+## Exit status: 0
+
+## Command
+find . -maxdepth 3 -type f | sort | sed 's#^./##' | grep -Ei '(^src/|^include/|^app/|^gui/|^ui/|^core/|^models/|^tests/|^cmake/|CMakeLists|README|docs/)'
+
+## Output
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/00_EXECUTIVE_SUMMARY.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/01_MASTER_ROADMAP.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/02_PHASE_1_REDESIGN_PRD.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/03_UI_UX_WORKSTATION_SPEC.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/04_MODEL_CONSOLIDATION_AND_FUSION_SPEC.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/05_PREVIEW_TIMELINE_CACHE_SPEC.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/06_PHASE_2_TEMPORAL_FORGE_ML_PRD.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/07_TEMPORAL_ENGINE_ARCHITECTURE.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/08_BUFFER_PROVIDERS_AND_MASKS.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/09_BACKEND_DATAFLOW_AND_STAGE_SYSTEM.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/10_ML_REFINER_TRAINING_AND_EVAL.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/11_KEEP_REMOVE_HARDEN.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/12_AGENT_IMPLEMENTATION_PROTOCOL.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/13_ACCEPTANCE_TESTS_AND_VALIDATION.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/14_LICENSE_IP_AND_AMD_OUTREACH.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/15_MILESTONE_BACKLOG.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/16_GLOSSARY.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/17_TRACEABILITY_MATRIX.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/18_AGENT_PROMPTS.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/19_IMPLEMENTATION_TASKS.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/20_TECHNICAL_CONTRACTS.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/21_IMPLEMENTATION_READINESS_REVIEW.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/22_VALIDATION_MATRIX.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/23_PR_AND_RELEASE_GATES.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/24_RISK_REGISTER.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/25_REPO_PATCH_PLAN.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/26_DEFINITION_OF_READY_AND_DONE.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/27_REVISION_CHANGELOG.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/28_LEGACY_MIGRATION_CONTRACT.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/docs/EXTERNAL_ASSUMPTIONS_LEDGER.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/README.md
+amd-ve-temporal-forge-roadmap-conditional-handoff-r2/tests/README.md
+benchmarks/README.md
+cmake/ave-launch.sh.in
+cmake/ave-migraphx-driver.sh.in
+cmake/install_bundled_migraphx_deps.cmake.in
+cmake/install_model_bundle.cmake.in
+cmake/install_qt_plugins.cmake.in
+cmake/install_runtime_deps.cmake.in
+CMakeLists.txt
+cmake/README.md
+docs/AGENT_FINDINGS.md
+docs/BENCHMARKS.md
+docs/BETA_TESTING_PROGRAM.md
+docs/CUSTOM_MODEL_MANIFEST.md
+docs/FEATURE_PARITY_MATRIX.md
+docs/GOLD_STANDARD_FOR_IMPLEMENTATION.md
+docs/implementation/BASELINE_AUDIT.md
+docs/implementation/FILE_MAP.md
+docs/implementation/IMPLEMENTATION_DECISIONS.md
+docs/implementation/KNOWN_LIMITATIONS.md
+docs/implementation/PHASE0_COMMAND_OUTPUTS.log
+docs/LIMITATIONS.md
+docs/migraphx_debugging_playbook.md
+docs/PACKAGING.md
+docs/PARITY_PLAN.md
+docs/README.md
+docs/RELEASE_STATUS.md
+docs/RELEASING.md
+docs/SUPPORT_TIERS.md
+docs/VALIDATION_AND_EVIDENCE.md
+docs/WHY_THIS_PROJECT_MATTERS.md
+include/ave/app_settings.hpp
+include/ave/backend.hpp
+include/ave/backend_manager.hpp
+include/ave/cli.hpp
+include/ave/error_taxonomy.hpp
+include/ave/ffmpeg_runner.hpp
+include/ave/filter_catalog.hpp
+include/ave/frame_io.hpp
+include/ave/interop_bridge.hpp
+include/ave/job.hpp
+include/ave/job_queue.hpp
+include/ave/job_recovery.hpp
+include/ave/model_catalog.hpp
+include/ave/model_manager.hpp
+include/ave/observability.hpp
+include/ave/planner.hpp
+include/ave/process_loop.hpp
+include/ave/process_observer.hpp
+include/ave/process_progress.hpp
+include/ave/README.md
+include/ave/rgb_video_loop.hpp
+include/ave/runtime_diagnostics.hpp
+include/ave/runtime_paths.hpp
+include/ave/scene_detector.hpp
+include/ave/stage.hpp
+include/ave/telemetry.hpp
+include/ave/tensor_contract.hpp
+include/ave/types.hpp
+include/ave/video_probe.hpp
+include/ave/video_processor.hpp
+include/ave/vulkan_runtime.hpp
+packaging/README.md
+README.md
+src/app_settings.cpp
+src/backend.cpp
+src/backend_manager.cpp
+src/backends/glsl_shader_backend.cpp
+src/backends/migraphx_backend.cpp
+src/backends/ncnn_vulkan_backend.cpp
+src/backends/README.md
+src/backends/rocm_hip_backend.cpp
+src/backends/vapoursynth_backend.cpp
+src/backends/vulkan_compute_backend.cpp
+src/cli.cpp
+src/error_taxonomy.cpp
+src/ffmpeg_runner.cpp
+src/filter_catalog.cpp
+src/frame_io.cpp
+src/frame_io_vulkan.cpp
+src/gui/ave_gui_resources.qrc
+src/gui/filter_browser.cpp
+src/gui/filter_browser.hpp
+src/gui/main_gui.cpp
+src/gui/main_window.cpp
+src/gui/main_window.hpp
+src/gui/model_manager_dialog.cpp
+src/gui/model_manager_dialog.hpp
+src/gui/README.md
+src/gui/settings_dialog.cpp
+src/gui/settings_dialog.hpp
+src/gui/toggle_switch.cpp
+src/gui/toggle_switch.hpp
+src/interop_bridge.cpp
+src/job_queue.cpp
+src/job_recovery.cpp
+src/main.cpp
+src/model_catalog.cpp
+src/model_manager.cpp
+src/observability.cpp
+src/planner.cpp
+src/process_loop.cpp
+src/process_observer.cpp
+src/process_progress.cpp
+src/README.md
+src/rgb_video_loop.cpp
+src/runtime_diagnostics.cpp
+src/runtime_paths.cpp
+src/scene_detector.cpp
+src/stage.cpp
+src/telemetry.cpp
+src/tensor_contract.cpp
+src/types.cpp
+src/video_probe.cpp
+src/video_processor.cpp
+src/vulkan_runtime.cpp
+tests/ffmpeg_runner_tests.cpp
+tests/frame_io_direct_pack_tests.cpp
+tests/frame_io_pipe_tests.cpp
+tests/frame_io_vulkan_tests.cpp
+tests/interop_bridge_tests.cpp
+tests/job_queue_tests.cpp
+tests/job_recovery_tests.cpp
+tests/migraphx_backend_tests.cpp
+tests/model_manager_profile_tests.cpp
+tests/planner_tests.cpp
+tests/process_loop_tests.cpp
+tests/process_observer_tests.cpp
+tests/process_progress_tests.cpp
+tests/README.md
+tests/rgb_video_loop_tests.cpp
+tests/runtime_diagnostics_tests.cpp
+tests/runtime_paths_tests.cpp
+tests/telemetry_tests.cpp
+tests/tensor_contract_tests.cpp
+tests/video_probe_tests.cpp
+tools/README.md
+
+## Exit status: 0
+
+## Command
+grep -RIn "StageKind\|ModelManager\|MiGraphX\|migraphx\|Vulkan\|NCNN\|Preview\|Timeline\|Qt\|QMainWindow\|FFmpeg\|avformat\|std::system\|popen\|python3\|unzip" src include app gui ui core models tests tools cmake docs 2>/dev/null | head -400
+
+## Output
+(output exceeds 400 lines; see docs/implementation/PHASE0_SYMBOL_GREP_FULL.log for complete capture)
+
+## Summary
+- Matches found: 400+ (head -400 limit reached)
+- Key symbols confirmed in source: StageKind, ModelManager, MiGraphX/migraphx, Vulkan, NCNN, FFmpeg, avformat, std::system, Qt, QMainWindow
+- python3/unzip: referenced in model preparation paths (docs), not directly in searched source
+- Timeline: not found in any source file
+- Preview: found only in CLI flag handling (--preview), not as a cache/timeline subsystem
+
+NOTE: The head-limited grep is general discovery evidence only. It is not a complete subprocess inventory. The head-limited grep did not surface popen() within the displayed slice. This does not mean popen() is absent. The dedicated subprocess audit found 9 popen() calls and 6 std::system() calls. See docs/implementation/SUBPROCESS_AUDIT.log for the complete inventory. The earlier summary line "popen: not found in search scope" was incorrect and has been removed.
+
+## Exit status: 0
+
+## Command
+grep -RIn "production-ready\|production ready\|stable release\|fully supported\|all distros\|works on all\|guaranteed\|Topaz replacement\|Topaz alternative\|prerelease\|pre-release\|released\|verified\|supported\|FSR-class\|Temporal Forge\|/home/\|/mnt/" README.md docs .github CONTRIBUTING.md 2>/dev/null
+
+## Output
+README.md:7:**Current public state:** `v0.1.0-beta.1` is published on the GitHub Releases page as the first public beta prerelease from `main`.
+README.md:11:**Primary verified backend path:** MiGraphX inference with the FFmpeg media pipeline on that reference system.
+README.md:13:**Bundled MiGraphX reality:** the current beta prerelease packages bundle a custom MiGraphX runtime/toolchain because the required upstream behavior is not yet available in the stock system path.
+README.md:15:**Support boundary:** package targets are broader than verified compatibility. Packaging reach is not the same thing as support proof.
+README.md:148:- a supported AMD GPU
+README.md:182:- unsupported ROCm distributions are still best-effort even if the app itself builds there
+README.md:274:- `v0.1.0-beta.1` is the current public GitHub beta prerelease on `main`
+README.md:275:- the primary verified stack is **Arch Linux + Ryzen 7 7800X3D + Radeon RX 7900 GRE**
+docs/VALIDATION_AND_EVIDENCE.md:9:| Maintainer-verified | Reproduced on the reference system with checked commands and outputs | Current benchmark snapshot and the visible subsystem test surface live here |
+docs/VALIDATION_AND_EVIDENCE.md:10:| Community-submitted | Submitted by outside testers with complete environment detail and required artifacts | Wanted, but still early and should stay clearly separated from maintainer-verified proof |
+docs/VALIDATION_AND_EVIDENCE.md:48:- the app runs real work on the verified system
+docs/implementation/KNOWN_LIMITATIONS.md:17:| KL-010 | Single verified environment (CachyOS/Arch + 7800X3D + 7900 GRE) | Validation | 3 | Beta testing program for broader verification | Beta testing and community validation |
+docs/implementation/IMPLEMENTATION_DECISIONS.md:26:Context: Phase 1 product refinement and Phase 2 Temporal Forge are different risk classes. The repo is a working beta with real users.
+docs/implementation/IMPLEMENTATION_DECISIONS.md:30:Consequences: UI, metadata, fusion, preview cache, and CLI/profile parity land before Temporal Forge production work. Each Phase 1 sub-phase produces mergeable artifacts that do not break existing functionality.
+docs/implementation/IMPLEMENTATION_DECISIONS.md:38:Context: The roadmap discusses FSR-class ideas but must avoid licensing/IP risk.
+docs/implementation/BASELINE_AUDIT.md:9:- Scope: Phase 0 verified handoff — repo state, build, tests, seams, gaps, limitations
+docs/implementation/BASELINE_AUDIT.md:44:Result: 19/19 tests passed, 0 failed. Total test time: 32.93s–34.87s (two runs verified).
+docs/implementation/BASELINE_AUDIT.md:163:1. The repo is a working beta with a published GitHub prerelease `v0.1.0-beta.1`.
+docs/implementation/BASELINE_AUDIT.md:164:2. Only verified on Arch Linux + 7800X3D + 7900 GRE.
+docs/implementation/BASELINE_AUDIT.md:194:1. Do not assume Temporal Forge exists in the codebase. It does not.
+docs/implementation/BASELINE_AUDIT.md:200:7. Do not assume broad distro compatibility. Only Arch on the reference system is verified.
+docs/BENCHMARKS.md:7:These numbers are **maintainer-verified evidence on one reference system**. They prove that the app runs real work on that stack. They do **not** by themselves prove cross-distro compatibility, broad backend coverage, or public output-quality superiority.
+docs/RELEASING.md:5:The repository has published its first public **GitHub beta prerelease** as `v0.1.0-beta.1`.
+docs/RELEASING.md:7:As of 2026-04-13, the public release page should show that prerelease and its assets. This document describes the process and checks used for that publication and for future beta tags.
+docs/RELEASING.md:14:- Primary verified system: Arch Linux
+docs/RELEASING.md:15:- Primary verified hardware: Ryzen 7 7800X3D + Radeon RX 7900 GRE
+docs/RELEASING.md:49:7. Publish local-install Arch packages, AUR handoff assets, distro-native packages, and checksum sidecars on GitHub as beta prerelease assets
+docs/RELEASING.md:109:5. Tag pushes create a GitHub beta prerelease, generate a consolidated `SHA256SUMS`, and upload all release assets
+docs/RELEASING.md:113:Before publishing a beta prerelease, confirm:
+docs/RELEASING.md:122:- support messaging matches the current verified system statement
+docs/RELEASING.md:128:- whether the current GitHub beta prerelease is already published or a future tag is still being prepared
+docs/RELEASING.md:129:- primarily verified on Arch Linux
+docs/RELEASING.md:130:- primarily verified on Ryzen 7 7800X3D + Radeon RX 7900 GRE
+docs/CUSTOM_MODEL_MANIFEST.md:67:- Binding expressions supported by `control.<input_name>`:
+docs/GOLD_STANDARD_FOR_IMPLEMENTATION.md:221:Custom models are supported through `.avemodel` manifest files, which define things like:
+docs/GOLD_STANDARD_FOR_IMPLEMENTATION.md:383:FFmpeg is not just a decode helper here. It is the **guaranteed fallback path** and the encode backbone.
+docs/GOLD_STANDARD_FOR_IMPLEMENTATION.md:394:The app does not pretend AI can or should do every job. When a model is missing, incompatible, or unsupported for a stage, the pipeline can still finish the job using FFmpeg filters.
+docs/GOLD_STANDARD_FOR_IMPLEMENTATION.md:542:- proof of a verified “first ever consumer MiGraphX app” claim
+docs/GOLD_STANDARD_FOR_IMPLEMENTATION.md:544:On that last point: public MiGraphX consumer-facing examples appear rare, and this repo clearly pushes the stack farther into end-user application territory than most public examples. But unless a claim is verified, this document intentionally does **not** declare “first ever.”
+docs/LIMITATIONS.md:7:- The first public GitHub beta prerelease is now published as `v0.1.0-beta.1`.
+docs/LIMITATIONS.md:8:- This is still a beta prerelease, not a general-availability release.
+docs/LIMITATIONS.md:13:- The only verified primary environment today is **Arch Linux + Ryzen 7 7800X3D + Radeon RX 7900 GRE**.
+docs/LIMITATIONS.md:15:- Current benchmark evidence is still narrow and centered on one maintainer-verified reference system.
+docs/LIMITATIONS.md:33:- Community validation is still growing, so most public proof remains maintainer-verified.
+docs/RELEASE_STATUS.md:5:AMD Video Enhancer has published its first public **GitHub beta prerelease** as `v0.1.0-beta.1` from `main`.
+docs/RELEASE_STATUS.md:7:As of **2026-04-13**, the public GitHub Releases page should show that beta prerelease and its downloadable assets. The repository should describe the beta as published because outsiders can now inspect the release page, release notes, and checksum assets directly.
+docs/RELEASE_STATUS.md:12:- the primary verified stack is **Arch Linux + Ryzen 7 7800X3D + Radeon RX 7900 GRE**
+docs/RELEASE_STATUS.md:13:- the primary verified backend path is **MiGraphX + FFmpeg media pipeline** on that reference system
+docs/RELEASE_STATUS.md:27:| Release page | Public GitHub beta prerelease `v0.1.0-beta.1` with inspectable assets | Keep release notes, assets, and checksums aligned with docs |
+docs/RELEASE_STATUS.md:35:- it is a **GitHub beta prerelease**, not a general-availability release
+docs/RELEASE_STATUS.md:36:- Arch Linux on the reference system is the only **verified primary** environment today
+docs/PACKAGING.md:5:The first public **GitHub beta prerelease** `v0.1.0-beta.1` is now published on the GitHub Releases page.
+docs/PACKAGING.md:9:- Primary verified stack: Arch Linux on Ryzen 7 7800X3D + Radeon RX 7900 GRE
+docs/PACKAGING.md:170:The packaging helper writes one `.sha256` file per produced artifact. GitHub prereleases additionally publish a consolidated `SHA256SUMS` manifest.
+docs/PACKAGING.md:226:Packaging reach is still not the same thing as verified compatibility. A package format existing in the tree or in a future release does not widen the verified support statement by itself.
+docs/specification-pack/website/content-proof-matrix.md:7:| Current release state | `v0.1.0-beta.1` is the current public beta prerelease | GitHub release page + release docs | claiming a GA release or implying unreleased assets |
+docs/specification-pack/website/content-proof-matrix.md:8:| Verified platform | verified on Arch Linux + Ryzen 7 7800X3D + Radeon RX 7900 GRE | `README.md`, `docs/RELEASE_STATUS.md`, `docs/SUPPORT_TIERS.md` | implying broad Linux-wide validation |
+docs/specification-pack/website/content-proof-matrix.md:9:| Preview packages | preview package assets are available for the listed target distros | release assets + support tiers | presenting preview packages as guaranteed support |
+docs/specification-pack/website/constraints-and-assumptions.md:7:- The site must reflect the currently published beta prerelease, not a future ideal state.
+docs/specification-pack/website/constraints-and-assumptions.md:8:- The verified primary environment remains **Arch Linux + Ryzen 7 7800X3D + Radeon RX 7900 GRE**.
+docs/specification-pack/website/requirements.md:11:- states that the current public release is a beta prerelease
+docs/specification-pack/website/requirements.md:12:- identifies the verified primary environment explicitly
+docs/specification-pack/website/requirements.md:22:- distinguishes the primary verified asset path from preview package targets
+docs/specification-pack/website/requirements.md:31:- summarizes what is actually verified today
+docs/specification-pack/website/requirements.md:33:- makes preview package targets visibly different from verified support
+docs/specification-pack/website/requirements.md:51:- avoid unsupported platform or performance claims
+docs/specification-pack/website/requirements.md:71:- verified primary environment
+docs/specification-pack/website/requirements.md:84:- present preview packages as guaranteed compatibility
+docs/specification-pack/website/inference-ledger.md:9:- the first public beta prerelease is now live as `v0.1.0-beta.1`
+docs/specification-pack/website/inference-ledger.md:10:- the primary verified environment is Arch Linux + Ryzen 7 7800X3D + Radeon RX 7900 GRE
+docs/specification-pack/website/user-experience-spec.md:17:   - verified-primary path
+docs/specification-pack/website/user-experience-spec.md:51:   - verified primary environment
+docs/specification-pack/website/user-experience-spec.md:52:   - supported proof boundaries
+docs/specification-pack/website/user-experience-spec.md:64:2. primary verified download path
+docs/specification-pack/website/user-experience-spec.md:74:2. verified primary environment
+docs/specification-pack/website/README.md:6:- **Created against:** published beta prerelease `v0.1.0-beta.1`
+docs/specification-pack/website/delivery-phasing.md:16:- explicit verified-primary vs preview labeling
+docs/specification-pack/website/project-brief.md:9:The repository now has a live beta prerelease, but the public front door is still mostly the GitHub repo itself. That is workable for technical contributors, but weak for:
+docs/specification-pack/website/project-brief.md:13:- testers who need to understand what is verified versus preview before choosing an asset
+docs/specification-pack/website/project-brief.md:25:4. What is verified, preview, or out of scope?
+docs/specification-pack/website/project-brief.md:47:- highlights the verified primary environment clearly
+docs/PARITY_PLAN.md:10:- FFmpeg remains the guaranteed fallback when AI backends are unavailable
+docs/PARITY_PLAN.md:15:1. Keep documentation aligned with the actual code and supported workflows
+docs/migraphx_debugging_playbook.md:179:   - **Compile-time model crash** → ONNX import / unsupported op / MiGraphX compile issue
+docs/migraphx_debugging_playbook.md:703:  - report unsupported op / shape issue if possible
+docs/SUPPORT_TIERS.md:9:| Verified primary | Arch Linux + Ryzen 7 7800X3D + Radeon RX 7900 GRE | This is the only environment currently treated as verified for the public beta release |
+docs/SUPPORT_TIERS.md:19:| Supported fallback on the verified system | FFmpeg filter-chain fallback | Always available media fallback path when AI acceleration cannot be used for a given operation |
+docs/SUPPORT_TIERS.md:21:| Experimental / manual | GLSL shader backend, VapourSynth-oriented/specialized paths, custom unsupported stack combinations | Present for technical depth or compatibility exploration, not as a broad release promise |
+docs/SUPPORT_TIERS.md:29:| Not proof by itself | Any package emitted by the build pipeline | A package format existing does not widen verified compatibility on its own |
+docs/FEATURE_PARITY_MATRIX.md:35:| NCNN Vulkan backend | Implemented | alternate GPU inference path when supported |
+docs/FEATURE_PARITY_MATRIX.md:38:| PyTorch-to-ONNX export path | Implemented | conversion helper for supported checkpoints |
+docs/BETA_TESTING_PROGRAM.md:33:- whether the report came from the verified reference stack or a preview/experimental stack
+.github/ISSUE_TEMPLATE/config.yml:8:    about: See verified, preview, experimental, and out-of-scope environments before assuming support.
+.github/ISSUE_TEMPLATE/bug_report.yml:10:        ## Beta prerelease notice
+.github/ISSUE_TEMPLATE/bug_report.yml:12:        **This project is only verified on Arch Linux on a Ryzen 7 7800X3D + Radeon RX 7900 GRE.**
+.github/instructions/release-gold-standard.instructions.md:34:- verified primary
+.github/instructions/release-gold-standard.instructions.md:35:- supported fallback
+.github/instructions/release-gold-standard.instructions.md:47:- verified environments
+.github/instructions/release-gold-standard.instructions.md:59:- users must not confuse the bundled beta path with a generally supported system-MiGraphX install path
+.github/instructions/release-gold-standard.instructions.md:67:- maintainer-verified evidence
+.github/instructions/release-gold-standard.instructions.md:85:- What platform is actually verified?
+.github/skills/shared-skill-index/SKILL.md:17:- `/home/user/.agents/skills/`
+.github/workflows/release-native-packages.yml:159:      - name: Publish beta prerelease
+.github/workflows/release-native-packages.yml:162:          prerelease: true
+CONTRIBUTING.md:9:This repository has published its first public beta prerelease.
+
+## Exit status: 0

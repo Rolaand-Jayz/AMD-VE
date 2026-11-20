@@ -39,6 +39,11 @@ int main(int argc, char** argv) {
         return cli.exitCode;
     }
 
+    if (cli.listModes) {
+        ave::printModesList();
+        return 0;
+    }
+
     if (cli.listBackends) {
         ave::BackendManager manager;
         const auto backends = manager.probeBackends();
@@ -62,7 +67,14 @@ int main(int argc, char** argv) {
         return 0;
     }
 
+    if (cli.saveProfilePath.has_value() && cli.profile.has_value()) {
+        return 0;
+    }
+
     if (!cli.job.has_value()) {
+        if (cli.profile.has_value()) {
+            return 0;
+        }
         std::cerr << "No job provided." << std::endl;
         return 1;
     }

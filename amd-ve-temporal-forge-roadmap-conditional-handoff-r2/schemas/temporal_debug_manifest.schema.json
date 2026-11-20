@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://amd-ve.local/schemas/temporal_debug_manifest.schema.json",
+  "title": "AMD-VE Temporal Forge Debug Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source",
+    "frame_index",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source": {
+      "type": "string"
+    },
+    "frame_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "pts_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "scene_reset": {
+      "type": "boolean"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "path"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "motion_field_visualization",
+              "depth_visualization",
+              "reactive_mask",
+              "occlusion_mask",
+              "confidence_map",
+              "ai_allowed_mask",
+              "scene_reset_markers",
+              "history_weight_map"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

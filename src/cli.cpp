@@ -10,6 +10,9 @@
 #include <string>
 #include <vector>
 
+#include "ave/enhancement_profile.hpp"
+#include "ave/mode_definition.hpp"
+#include "ave/temporal_frame_types.hpp"
 #include "ave/types.hpp"
 
 namespace ave {
@@ -73,6 +76,11 @@ void printUsage(const std::string& executableName) {
               << "  --preset <ffmpeg preset>                   default: medium\n"
               << "  --preview                                  process only a short clip for preview\n"
               << "  --preview-duration <seconds>               preview clip length (default: 10)\n"
+              << "  --mode <mode_id>                           select enhancement mode\n"
+              << "  --list-modes                               list available modes\n"
+              << "  --save-profile <path>                      save current settings to profile\n"
+              << "  --load-profile <path>                      load settings from profile\n"
+              << "  --temporal-preset <name>                   preset for temporal forge mode\n"
               << "  --dry-run                                  print ordered plan only\n"
               << "  --list-backends                            probe AMD backends\n"
               << "  --help\n"
@@ -112,6 +120,90 @@ CliResult parseCli(int argc, char** argv) {
             result.shouldExit = true;
             result.exitCode = 0;
             return result;
+        }
+
+        if (arg == "--list-modes") {
+            result.listModes = true;
+            continue;
+        }
+
+        if (arg == "--list-backends") {
+            result.listBackends = true;
+            continue;
+        }
+
+        if (arg == "--dry-run") {
+            job.dryRun = true;
+            continue;
+        }
+
+        if (arg == "--mode") {
+            std::string value;
+            if (!requireValue(argc, argv, i, value, arg, result)) {
+                return result;
+            }
+            std::string modeError;
+            auto mode = findModeDefinition(value);
+            if (mode == nullptr) {
+                std::cerr << "Unknown mode: " << value << std::endl;
+                result.shouldExit = true;
+                result.exitCode = 1;
+                return result;
+            }
+            if (!result.profile.has_value()) {
+                result.profile = EnhancementProfile{};
+            }
+            result.profile->modeId = value;
+            continue;
+        }
+
+        if (arg == "--save-profile") {
+            std::string value;
+            if (!requireValue(argc, argv, i, value, arg, result)) {
+                return result;
+            }
+            result.saveProfilePath = value;
+            continue;
+        }
+
+        if (arg == "--load-profile") {
+            std::string value;
+            if (!requireValue(argc, argv, i, value, arg, result)) {
+                return result;
+            }
+            std::string profileError;
+            auto loaded = loadProfileFromFile(value, profileError);
+            if (!loaded.has_value()) {
+                std::cerr << "Failed to load profile: " << profileError << std::endl;
+                result.shouldExit = true;
+                result.exitCode = 1;
+                return result;
+            }
+            result.profile = loaded;
+            continue;
+        }
+
+        if (arg == "--temporal-preset") {
+            std::string value;
+            if (!requireValue(argc, argv, i, value, arg, result)) {
+                return result;
+            }
+            auto preset = temporalForgePresetFromString(value);
+            if (!preset.has_value()) {
+                std::cerr << "Unknown temporal preset: " << value << "\n";
+                std::cerr << "Available presets: ";
+                const auto& names = temporalForgePresetNames();
+                for (size_t n = 0; n < names.size(); ++n) {
+                    if (n > 0) std::cerr << ", ";
+                    std::cerr << names[n];
+                }
+                std::cerr << std::endl;
+                result.shouldExit = true;
+                result.exitCode = 1;
+                return result;
+            }
+            result.temporalPreset = preset;
+            continue;
         }
 
         if (arg == "--list-backends") {
@@ -263,12 +355,44 @@ CliResult parseCli(int argc, char** argv) {
         return result;
     }
 
+    if (result.listModes) {
+        result.shouldExit = false;
+        return result;
+    }
+
     if (result.listBackends) {
         result.shouldExit = false;
         return result;
     }
 
-    if (job.inputPath.empty()) {
+    if (result.saveProfilePath.has_value() && result.profile.has_value()) {
+        std::string saveError;
+        if (!saveProfileToFile(*result.saveProfilePath, *result.profile, saveError)) {
+            std::cerr << "Failed to save profile: " << saveError << std::endl;
+            result.shouldExit = true;
+            result.exitCode = 1;
+            return result;
+        }
+        std::cout << "Profile saved to: " << *result.saveProfilePath << std::endl;
+        result.shouldExit = false;
+        return result;
+    }
+
+    if (result.profile.has_value() && job.dryRun) {
+        if (result.profile->modeId == "temporal_forge_experimental") {
+            std::cout << "WARNING: Temporal Forge is experimental. "
+                      << "Do not use for production output." << std::endl;
+            if (result.temporalPreset.has_value()) {
+                std::cout << "Temporal Forge preset: "
+                          << toString(*result.temporalPreset) << std::endl;
+            }
+        }
+        printProfileSummary(*result.profile);
+        result.shouldExit = false;
+        return result;
+    }
+
+    if (job.inputPath.empty() && !result.profile.has_value()) {
         std::cerr << "--input is required." << std::endl;
         result.shouldExit = true;
         result.exitCode = 1;

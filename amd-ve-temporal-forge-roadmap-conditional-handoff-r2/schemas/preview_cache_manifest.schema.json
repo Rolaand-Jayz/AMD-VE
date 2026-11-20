@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://amd-ve.local/schemas/preview_cache_manifest.schema.json",
+  "title": "AMD-VE Preview Cache Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "cache_key",
+    "source",
+    "range",
+    "intent",
+    "plan",
+    "state",
+    "frames"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "cache_key": {
+      "type": "string",
+      "minLength": 16
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "path",
+        "size_bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mtime_unix": {
+          "type": "number"
+        },
+        "content_hash": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "range": {
+      "type": "object",
+      "required": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "properties": {
+        "start_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "timebase": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "intent": {
+      "type": "object"
+    },
+    "plan": {
+      "type": "object"
+    },
+    "state": {
+      "enum": [
+        "empty",
+        "analyzing",
+        "rendering",
+        "cached",
+        "warning",
+        "invalid"
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "frame_index",
+          "pts_seconds",
+          "original_frame_path"
+        ],
+        "properties": {
+          "frame_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pts_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "original_frame_path": {
+            "type": "string"
+          },
+          "enhanced_frame_path": {
+            "type": "string"
+          },
+          "debug_overlay_path": {
+            "type": "string"
+          },
+          "frame_hash": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$comment": "Schema enforces cached frames include enhanced paths. Semantic validator enforces end_seconds > start_seconds.",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "cached"
+          }
+        },
+        "required": [
+          "state"
+        ]
+      },
+      "then": {
+        "properties": {
+          "frames": {
+            "minItems": 1,
+            "items": {
+              "required": [
+                "enhanced_frame_path"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

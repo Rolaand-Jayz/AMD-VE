@@ -1,0 +1,22 @@
+{
+  "family_id": "broken_family",
+  "family_name": "Broken Family",
+  "display_purpose": "Invalid test",
+  "content_type": "general",
+  "speed_tier": "B",
+  "quality_tier": "B",
+  "migraphx_fit": "unknown",
+  "visible_default": true,
+  "advanced_only": false,
+  "capabilities": [
+    "upscale"
+  ],
+  "safe_defaults": [
+    "denoise"
+  ],
+  "fused": false,
+  "selective": false,
+  "model_ids": [
+    "broken_model"
+  ]
+}

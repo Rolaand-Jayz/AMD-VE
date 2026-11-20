@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "cache_key": "1234567890abcdef",
+  "source": {
+    "path": "sample.mp4",
+    "size_bytes": 1000
+  },
+  "range": {
+    "start_seconds": 1.0,
+    "end_seconds": 4.0
+  },
+  "intent": {},
+  "plan": {},
+  "state": "cached",
+  "frames": [
+    {
+      "frame_index": 0,
+      "pts_seconds": 1.0,
+      "original_frame_path": "orig_000.png"
+    }
+  ]
+}

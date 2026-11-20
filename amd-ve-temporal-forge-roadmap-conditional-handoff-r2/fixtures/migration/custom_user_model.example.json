@@ -1,0 +1,7 @@
+{
+  "model_id": "user_custom_restore_x1",
+  "name": "User Custom Restore x1",
+  "path": "/home/user/.local/share/amd-ve/models/custom_restore.onnx",
+  "capabilities": ["remove_artifacts", "denoise"],
+  "user_supplied": true
+}

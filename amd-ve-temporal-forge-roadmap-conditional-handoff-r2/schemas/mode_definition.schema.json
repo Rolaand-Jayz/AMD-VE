@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://amd-ve.local/schemas/mode_definition.schema.json",
+  "title": "AMD-VE Enhancement Mode Definition",
+  "type": "object",
+  "required": [
+    "id",
+    "label",
+    "purpose",
+    "default_capabilities",
+    "visible_controls",
+    "preview_behavior",
+    "output_behavior"
+  ],
+  "properties": {
+    "id": {
+      "description": "Known product mode IDs or a custom extension mode. Required built-in IDs are validated at collection level by semantic tests.",
+      "oneOf": [
+        {
+          "enum": [
+            "restore_video",
+            "upscale_video",
+            "anime_line_art",
+            "stereo_3d_sbs",
+            "interpolate_motion",
+            "advanced_legacy",
+            "temporal_forge_experimental"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^custom_[a-z0-9_]+$"
+        }
+      ]
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "default_family_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "default_capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/capability"
+      },
+      "uniqueItems": true
+    },
+    "visible_controls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "preview_behavior": {
+      "enum": [
+        "split_wipe",
+        "sbs_preview",
+        "motion_preview",
+        "debug_overlay",
+        "original_only",
+        "enhanced_only"
+      ]
+    },
+    "output_behavior": {
+      "enum": [
+        "normal_video",
+        "sbs_video",
+        "interpolated_video",
+        "debug_export"
+      ]
+    },
+    "experimental": {
+      "type": "boolean",
+      "default": false
+    },
+    "advanced_only": {
+      "type": "boolean",
+      "default": false
+    },
+    "cli_profile_key": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "capability": {
+      "enum": [
+        "restore_compression",
+        "remove_artifacts",
+        "denoise",
+        "deblur",
+        "dehalo",
+        "color_fix",
+        "upscale",
+        "sharpen",
+        "stereo_3d",
+        "interpolate"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "$comment": "Single-mode schema. Required-set validation for collections belongs in semantic validator tests.",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "advanced_only": {
+            "const": false
+          },
+          "experimental": {
+            "const": false
+          }
+        },
+        "required": [
+          "advanced_only",
+          "experimental"
+        ]
+      },
+      "then": {
+        "required": [
+          "default_family_id",
+          "cli_profile_key"
+        ]
+      }
+    }
+  ]
+}

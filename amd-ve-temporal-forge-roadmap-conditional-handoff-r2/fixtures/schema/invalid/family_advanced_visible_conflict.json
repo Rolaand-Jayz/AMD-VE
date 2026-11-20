@@ -1,0 +1,16 @@
+{
+  "family_id": "legacy_raw_bad",
+  "family_name": "Legacy Raw Bad",
+  "display_purpose": "Invalid visibility conflict",
+  "content_type": "experimental",
+  "speed_tier": "D",
+  "quality_tier": "D",
+  "migraphx_fit": "unknown",
+  "visible_default": true,
+  "advanced_only": true,
+  "capabilities": ["upscale"],
+  "safe_defaults": ["upscale"],
+  "fused": false,
+  "selective": false,
+  "model_ids": ["legacy_raw_bad"]
+}
