@@ -1,0 +1,36 @@
+{
+  "family_id": "openproteus_quality",
+  "family_name": "OpenProteus Quality",
+  "display_purpose": "Clean live-action restoration and upscaling",
+  "content_type": "live_action",
+  "speed_tier": "B",
+  "quality_tier": "A",
+  "migraphx_fit": "A",
+  "visible_default": true,
+  "advanced_only": false,
+  "capabilities": [
+    "deblur",
+    "upscale",
+    "remove_artifacts"
+  ],
+  "safe_defaults": [
+    "deblur",
+    "upscale"
+  ],
+  "fused": true,
+  "selective": true,
+  "strength_controls": [
+    {
+      "id": "detail",
+      "label": "Detail recovery",
+      "capability": "upscale",
+      "min": 0,
+      "max": 1,
+      "default": 0.5,
+      "step": 0.05
+    }
+  ],
+  "model_ids": [
+    "openproteus_x2_migraphx"
+  ]
+}

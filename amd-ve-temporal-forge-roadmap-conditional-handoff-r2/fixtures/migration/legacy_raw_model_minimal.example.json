@@ -1,0 +1,7 @@
+{
+  "model_id": "legacy_raw_model_id",
+  "name": "Legacy Raw Model",
+  "stage": "upscale",
+  "path": "models/legacy_raw_model.onnx",
+  "scale": 2
+}

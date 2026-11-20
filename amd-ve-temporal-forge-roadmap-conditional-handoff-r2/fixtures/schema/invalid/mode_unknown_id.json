@@ -1,0 +1,17 @@
+{
+  "id": "restore_super_magic",
+  "label": "Restore",
+  "purpose": "Invalid unknown built-in",
+  "default_family_id": "openproteus_quality",
+  "default_capabilities": [
+    "upscale"
+  ],
+  "visible_controls": [
+    "family"
+  ],
+  "preview_behavior": "split_wipe",
+  "output_behavior": "normal_video",
+  "experimental": false,
+  "advanced_only": false,
+  "cli_profile_key": "bad"
+}

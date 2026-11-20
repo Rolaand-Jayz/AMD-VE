@@ -1,0 +1,47 @@
+# SUBPROCESS_AUDIT.log
+Generated: 2026-05-07
+
+## popen() calls
+
+src/frame_io.cpp:824:    impl_->pipe.reset(popen(cmd.str().c_str(), "r"));
+src/frame_io.cpp:1241:    impl_->pipe.reset(popen(encodeCmd.str().c_str(), "w"));
+src/frame_io.cpp:1442:    PipeHandle pipe(popen(cmd.str().c_str(), "r"));
+src/frame_io.cpp:1492:    PipeHandle pipe(popen(cmd.c_str(), "r"));
+src/frame_io.cpp:1532:    PipeHandle pipe(popen(cmd.c_str(), "w"));
+src/ffmpeg_runner.cpp:213:    FILE* pipe = popen(cmd.c_str(), "r");
+src/ffmpeg_runner.cpp:307:    FILE* pipe = popen(fullCmd.c_str(), "r");
+src/process_observer.cpp:173:    FILE* pipe = popen(wrappedCommand.c_str(), "r");
+src/process_observer.cpp:203:    FILE* pipe = popen(wrappedCommand.c_str(), "r");
+
+## std::system() calls
+
+src/backends/glsl_shader_backend.cpp:39:        std::system("ffmpeg -hide_banner -filters 2>/dev/null | grep -q libplacebo"));
+src/backends/glsl_shader_backend.cpp:411:        const int rc = process_observer::normalizeShellExitCode(std::system(cmd.str().c_str()));
+src/backends/vapoursynth_backend.cpp:82:    const int rc = process_observer::normalizeShellExitCode(std::system(probeCmd.c_str()));
+tests/frame_io_pipe_tests.cpp:22:    return std::system(command.c_str()) == 0;
+tests/process_observer_tests.cpp:20:    return std::system(command.c_str()) == 0;
+tests/rgb_video_loop_tests.cpp:21:    return std::system(command.c_str()) == 0;
+
+## Summary
+
+popen() locations: 9
+  src/frame_io.cpp:824,1241,1442,1492,1532  (FFmpeg pipe I/O)
+  src/ffmpeg_runner.cpp:213,307              (FFmpeg probing/filter execution)
+  src/process_observer.cpp:173,203           (subprocess output capture)
+
+std::system() locations: 6
+  src/backends/glsl_shader_backend.cpp:39,411 (FFmpeg libplacebo)
+  src/backends/vapoursynth_backend.cpp:82      (VapourSynth vspipe probe)
+  tests/frame_io_pipe_tests.cpp:22             (test helper)
+  tests/process_observer_tests.cpp:20          (test helper)
+  tests/rgb_video_loop_tests.cpp:21            (test helper)
+
+Shell safety measures present:
+  - process_observer::quoteShellArg() — used for user-supplied values
+  - isSafeFfmpegToken() in src/ffmpeg_runner.cpp:442 — validates codec/preset/profile
+  - process_observer::normalizeShellExitCode() — wraps exit codes
+  - PipeHandle RAII wrapper in frame_io.cpp
+
+Subprocess risk is known and bounded, not absent.
+The handoff does not require immediate hardening, but it must not claim zero popen/std::system exposure.
+Future hardening should replace shell-dependent paths where practical or document why they remain.

@@ -303,15 +303,20 @@ add_library(ave_core
     src/error_taxonomy.cpp
     src/ffmpeg_runner.cpp
     src/filter_catalog.cpp
+    src/family_metadata.cpp
     src/frame_io.cpp
     src/frame_io_vulkan.cpp
+    src/fusion_planner.cpp
     src/interop_bridge.cpp
     src/job_recovery.cpp
     src/job_queue.cpp
     src/model_catalog.cpp
     src/model_manager.cpp
+    src/enhancement_profile.cpp
+    src/mode_definition.cpp
     src/observability.cpp
     src/planner.cpp
+    src/preview_cache.cpp
     src/process_observer.cpp
     src/process_progress.cpp
     src/process_loop.cpp
@@ -325,6 +330,9 @@ add_library(ave_core
     src/types.cpp
     src/video_probe.cpp
     src/video_processor.cpp
+    src/temporal_frame_types.cpp
+    src/temporal_providers.cpp
+    src/reference_providers.cpp
     src/vulkan_runtime.cpp
     src/backends/glsl_shader_backend.cpp
     src/backends/migraphx_backend.cpp
@@ -468,6 +476,16 @@ if(AVE_BUILD_GUI)
             src/gui/toggle_switch.hpp
             src/gui/filter_browser.cpp
             src/gui/filter_browser.hpp
+            src/gui/top_rail_widget.cpp
+            src/gui/top_rail_widget.hpp
+            src/gui/preview_canvas_widget.cpp
+            src/gui/preview_canvas_widget.hpp
+            src/gui/family_inspector_widget.cpp
+            src/gui/family_inspector_widget.hpp
+            src/gui/timeline_cache_widget.cpp
+            src/gui/timeline_cache_widget.hpp
+            src/gui/temporal_forge_panel.cpp
+            src/gui/temporal_forge_panel.hpp
         )
         target_include_directories(ave_gui PRIVATE src/gui)
         target_link_libraries(ave_gui PRIVATE ave_core Qt6::Widgets)
@@ -685,6 +703,84 @@ target_include_directories(interop_bridge_tests PRIVATE include)
 target_compile_definitions(interop_bridge_tests PRIVATE ${AVE_COMPILE_DEFS})
 ave_add_warnings(interop_bridge_tests)
 add_test(NAME interop_bridge_tests COMMAND interop_bridge_tests)
+
+add_executable(mode_family_contracts_tests
+    tests/mode_family_contracts_tests.cpp
+    src/family_metadata.cpp
+    src/mode_definition.cpp
+    src/types.cpp
+)
+target_include_directories(mode_family_contracts_tests PRIVATE include)
+target_compile_definitions(mode_family_contracts_tests PRIVATE ${AVE_COMPILE_DEFS})
+ave_add_warnings(mode_family_contracts_tests)
+add_test(NAME mode_family_contracts_tests COMMAND mode_family_contracts_tests)
+
+add_executable(fusion_planner_tests
+    tests/fusion_planner_tests.cpp
+    src/family_metadata.cpp
+    src/fusion_planner.cpp
+    src/mode_definition.cpp
+    src/types.cpp
+)
+target_include_directories(fusion_planner_tests PRIVATE include)
+target_compile_definitions(fusion_planner_tests PRIVATE ${AVE_COMPILE_DEFS})
+ave_add_warnings(fusion_planner_tests)
+add_test(NAME fusion_planner_tests COMMAND fusion_planner_tests)
+
+add_executable(preview_cache_tests
+    tests/preview_cache_tests.cpp
+    src/preview_cache.cpp
+    src/fusion_planner.cpp
+    src/family_metadata.cpp
+    src/mode_definition.cpp
+    src/types.cpp
+)
+target_include_directories(preview_cache_tests PRIVATE include)
+target_compile_definitions(preview_cache_tests PRIVATE ${AVE_COMPILE_DEFS})
+ave_add_warnings(preview_cache_tests)
+add_test(NAME preview_cache_tests COMMAND preview_cache_tests)
+
+add_executable(enhancement_profile_tests
+    tests/enhancement_profile_tests.cpp
+    src/enhancement_profile.cpp
+    src/fusion_planner.cpp
+    src/family_metadata.cpp
+    src/mode_definition.cpp
+    src/types.cpp
+)
+target_include_directories(enhancement_profile_tests PRIVATE include)
+target_compile_definitions(enhancement_profile_tests PRIVATE ${AVE_COMPILE_DEFS})
+ave_add_warnings(enhancement_profile_tests)
+add_test(NAME enhancement_profile_tests COMMAND enhancement_profile_tests)
+
+add_executable(temporal_frame_tests
+    tests/temporal_frame_tests.cpp
+    src/temporal_frame_types.cpp
+)
+target_include_directories(temporal_frame_tests PRIVATE include)
+target_compile_definitions(temporal_frame_tests PRIVATE ${AVE_COMPILE_DEFS})
+ave_add_warnings(temporal_frame_tests)
+add_test(NAME temporal_frame_tests COMMAND temporal_frame_tests)
+
+add_executable(temporal_provider_tests
+    tests/temporal_provider_tests.cpp
+    src/temporal_frame_types.cpp
+    src/temporal_providers.cpp
+)
+target_include_directories(temporal_provider_tests PRIVATE include)
+target_compile_definitions(temporal_provider_tests PRIVATE ${AVE_COMPILE_DEFS})
+ave_add_warnings(temporal_provider_tests)
+add_test(NAME temporal_provider_tests COMMAND temporal_provider_tests)
+
+add_executable(reference_provider_tests
+    tests/reference_provider_tests.cpp
+    src/temporal_frame_types.cpp
+    src/reference_providers.cpp
+)
+target_include_directories(reference_provider_tests PRIVATE include)
+target_compile_definitions(reference_provider_tests PRIVATE ${AVE_COMPILE_DEFS})
+ave_add_warnings(reference_provider_tests)
+add_test(NAME reference_provider_tests COMMAND reference_provider_tests)
 
 set(AVE_INSTALL_DOC_DIR "${CMAKE_INSTALL_DATADIR}/doc/amd-video-enhancer")
 set(AVE_INSTALL_LICENSE_DIR "${CMAKE_INSTALL_DATADIR}/licenses/amd-video-enhancer")

@@ -1,0 +1,16 @@
+{
+  "family_id": "legacy_raw_<stable_hash>",
+  "family_name": "Legacy Raw Model",
+  "display_purpose": "Imported legacy/custom model. Behavior preserved through Advanced/Legacy.",
+  "content_type": "experimental",
+  "speed_tier": "D",
+  "quality_tier": "D",
+  "migraphx_fit": "unknown",
+  "visible_default": false,
+  "advanced_only": true,
+  "capabilities": ["upscale"],
+  "safe_defaults": ["upscale"],
+  "fused": false,
+  "selective": false,
+  "model_ids": ["legacy_raw_model_id"]
+}

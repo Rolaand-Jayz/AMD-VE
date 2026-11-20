@@ -1,0 +1,400 @@
+src/job_recovery.cpp:87:    if (value == "migraphx") {
+src/job_recovery.cpp:88:        return BackendType::MiGraphX;
+src/job_recovery.cpp:96:        return BackendType::VulkanCompute;
+src/job_recovery.cpp:99:        return BackendType::NcnnVulkan;
+src/runtime_diagnostics.cpp:203:    if (const auto bundledDriver = bundledMiGraphXDriverPath(); bundledDriver.has_value()) {
+src/runtime_diagnostics.cpp:204:        snapshot.migraphxDriverPresent = true;
+src/runtime_diagnostics.cpp:206:        snapshot.migraphxDriverPresent = process_observer::commandInPath("migraphx-driver");
+src/runtime_diagnostics.cpp:209:    std::vector<fs::path> migraphxLibraryCandidates{
+src/runtime_diagnostics.cpp:210:        fs::path(snapshot.rocmRoot) / "lib" / "libmigraphx.so",
+src/runtime_diagnostics.cpp:211:        fs::path(snapshot.rocmRoot) / "lib64" / "libmigraphx.so",
+src/runtime_diagnostics.cpp:212:        "/usr/lib/libmigraphx.so",
+src/runtime_diagnostics.cpp:213:        "/usr/lib64/libmigraphx.so",
+src/runtime_diagnostics.cpp:214:        "/usr/local/lib/libmigraphx.so",
+src/runtime_diagnostics.cpp:216:    if (const auto bundledPrefix = bundledMiGraphXPrefix(); bundledPrefix.has_value()) {
+src/runtime_diagnostics.cpp:217:        migraphxLibraryCandidates.push_back(*bundledPrefix / "lib" / "libmigraphx.so");
+src/runtime_diagnostics.cpp:218:        migraphxLibraryCandidates.push_back(*bundledPrefix / "lib" / "migraphx" / "lib" / "libmigraphx.so");
+src/runtime_diagnostics.cpp:220:    snapshot.migraphxLibraryPresent = anyPathExists(migraphxLibraryCandidates);
+src/runtime_diagnostics.cpp:222:    snapshot.migraphxLibraryPresent = true;
+src/runtime_diagnostics.cpp:313:    RuntimeDiagnosticStatus migraphxStatus = RuntimeDiagnosticStatus::Error;
+src/runtime_diagnostics.cpp:314:    std::string migraphxDetail;
+src/runtime_diagnostics.cpp:315:    if (snapshot.migraphxDriverPresent && snapshot.migraphxLibraryPresent) {
+src/runtime_diagnostics.cpp:316:        migraphxStatus = RuntimeDiagnosticStatus::Ok;
+src/runtime_diagnostics.cpp:317:        migraphxDetail = "Driver and shared library were detected.";
+src/runtime_diagnostics.cpp:318:    } else if (snapshot.migraphxDriverPresent || snapshot.migraphxLibraryPresent) {
+src/runtime_diagnostics.cpp:319:        migraphxStatus = RuntimeDiagnosticStatus::Warning;
+src/runtime_diagnostics.cpp:320:        migraphxDetail = "MiGraphX is only partially installed.";
+src/runtime_diagnostics.cpp:322:        migraphxDetail = "MiGraphX driver/library could not be found.";
+src/runtime_diagnostics.cpp:325:        "migraphx",
+src/runtime_diagnostics.cpp:326:        "MiGraphX runtime",
+src/runtime_diagnostics.cpp:327:        migraphxStatus,
+src/runtime_diagnostics.cpp:328:        migraphxDetail,
+src/runtime_diagnostics.cpp:329:        "Install migraphx-driver plus libmigraphx.so, or bundle the optimized runtime with the app."
+src/runtime_diagnostics.cpp:355:        vulkanDetail = "Vulkan loader/runtime detected.";
+src/runtime_diagnostics.cpp:357:        vulkanDetail = "Vulkan loader/runtime not detected.";
+src/runtime_diagnostics.cpp:361:        "Vulkan fallback",
+src/runtime_diagnostics.cpp:364:        "Install libvulkan and a working ICD to keep Vulkan/NCNN fallback paths available."
+src/runtime_diagnostics.cpp:367:    report.migraphxReady =
+src/runtime_diagnostics.cpp:371:        snapshot.migraphxDriverPresent &&
+src/runtime_diagnostics.cpp:372:        snapshot.migraphxLibraryPresent &&
+src/runtime_diagnostics.cpp:390:    if (migraphxReady) {
+src/runtime_diagnostics.cpp:391:        return "ROCm and MiGraphX look ready for the preferred AMD execution path.";
+src/runtime_diagnostics.cpp:394:        return "MiGraphX is not fully ready; ONNX Runtime ROCm/HIP fallback should cover supported ONNX image models.";
+src/runtime_diagnostics.cpp:397:        return "MiGraphX and ROCm/HIP fallback are not fully ready; Vulkan/NCNN fallback should remain available.";
+src/runtime_diagnostics.cpp:399:    return "MiGraphX, ROCm/HIP fallback, and Vulkan fallback all look incomplete.";
+src/backends/glsl_shader_backend.cpp:4:// FFmpeg's libplacebo filter or mpv's GPU shader pipeline.
+src/backends/glsl_shader_backend.cpp:39:        std::system("ffmpeg -hide_banner -filters 2>/dev/null | grep -q libplacebo"));
+src/backends/glsl_shader_backend.cpp:57:const std::unordered_map<StageKind, std::vector<std::string>>& defaultShaderMap() {
+src/backends/glsl_shader_backend.cpp:58:    static const std::unordered_map<StageKind, std::vector<std::string>> map = {
+src/backends/glsl_shader_backend.cpp:59:        {StageKind::Upscale,    {"FSRCNNX_x2_16-0-4-1.glsl",
+src/backends/glsl_shader_backend.cpp:62:        {StageKind::Sharpen,    {"adaptive-sharpen.glsl"}},
+src/backends/glsl_shader_backend.cpp:63:        {StageKind::Denoise,    {"nlmeans.glsl",
+src/backends/glsl_shader_backend.cpp:65:        {StageKind::Dehalo,     {"dehalo.glsl"}},
+src/backends/glsl_shader_backend.cpp:66:        {StageKind::ColorFix,   {"colorlevels.glsl"}},
+src/backends/glsl_shader_backend.cpp:116:        StageKind stageKind) {
+src/backends/glsl_shader_backend.cpp:145:std::vector<ActiveFilter> defaultCatalogShadersForStage(StageKind stageKind) {
+src/backends/glsl_shader_backend.cpp:155:        case StageKind::Upscale:
+src/backends/glsl_shader_backend.cpp:158:        case StageKind::Sharpen:
+src/backends/glsl_shader_backend.cpp:161:        case StageKind::Denoise:
+src/backends/glsl_shader_backend.cpp:164:        case StageKind::Deblur:
+src/backends/glsl_shader_backend.cpp:167:        case StageKind::Dehalo:
+src/backends/glsl_shader_backend.cpp:170:        case StageKind::ColorFix:
+src/backends/glsl_shader_backend.cpp:173:        case StageKind::RestoreCompression:
+src/backends/glsl_shader_backend.cpp:176:        case StageKind::RemoveArtifacts:
+src/backends/glsl_shader_backend.cpp:179:        case StageKind::Interpolate:
+src/backends/glsl_shader_backend.cpp:180:        case StageKind::Stereo3D:
+src/backends/glsl_shader_backend.cpp:192:std::vector<std::string> GlslShaderBackend::defaultShadersForStage(StageKind kind) {
+src/backends/glsl_shader_backend.cpp:224:        reason = "Neither FFmpeg libplacebo filter nor mpv found. "
+src/backends/glsl_shader_backend.cpp:295:        // No shaders available for this stage — defer to FFmpeg filters.
+src/backends/glsl_shader_backend.cpp:305:        if (tryGetInt(stage, StageKind::Upscale, "width", widthValue)) {
+src/backends/glsl_shader_backend.cpp:308:        if (tryGetInt(stage, StageKind::Upscale, "height", heightValue)) {
+src/backends/glsl_shader_backend.cpp:318:        const std::string runtimeLabel = "GLSL Shader via FFmpeg libplacebo";
+src/backends/glsl_shader_backend.cpp:324:        // ── Direct FFmpeg libplacebo pipeline ────────────────────
+src/backends/glsl_shader_backend.cpp:380:            error = "FFmpeg libplacebo exited with code " + std::to_string(rc);
+src/backends/glsl_shader_backend.cpp:411:        const int rc = process_observer::normalizeShellExitCode(std::system(cmd.str().c_str()));
+src/backends/rocm_hip_backend.cpp:63:bool stageSupportedByRocmHip(const StageKind kind) {
+src/backends/rocm_hip_backend.cpp:64:    return kind != StageKind::Interpolate && kind != StageKind::Stereo3D;
+src/backends/rocm_hip_backend.cpp:67:std::string defaultModelIdFor(const StageKind kind) {
+src/backends/rocm_hip_backend.cpp:100:    ModelManager manager;
+src/backends/rocm_hip_backend.cpp:428:    if (stage.kind != StageKind::Upscale) {
+src/backends/rocm_hip_backend.cpp:434:    if (tryGetInt(stage, StageKind::Upscale, "width", widthValue) && widthValue > 0) {
+src/backends/rocm_hip_backend.cpp:437:    if (tryGetInt(stage, StageKind::Upscale, "height", heightValue) && heightValue > 0) {
+src/backends/rocm_hip_backend.cpp:668:                  << " — deferring to FFmpeg filter chain." << std::endl;
+src/backends/rocm_hip_backend.cpp:677:                      << "': " << error << "\n  → Deferring to FFmpeg filter chain." << std::endl;
+src/backends/rocm_hip_backend.cpp:774:    loopOptions.preferredSourceMode = frame_io::RgbVideoSourceMode::VulkanTransfer;
+src/backends/migraphx_backend.cpp:2:// MiGraphX Backend — Gold-standard implementation
+src/backends/migraphx_backend.cpp:14://   G8  InteropBridge hook points documented for Vulkan↔HIP path;
+src/backends/migraphx_backend.cpp:20:#include "ave/backends/migraphx_backend.hpp"
+src/backends/migraphx_backend.cpp:73:#  include <migraphx/migraphx.hpp>
+src/backends/migraphx_backend.cpp:88:std::string compilePrecisionTag(MiGraphXPrecision precision) {
+src/backends/migraphx_backend.cpp:90:        case MiGraphXPrecision::Fp32: return "fp32";
+src/backends/migraphx_backend.cpp:91:        case MiGraphXPrecision::Fp16: return "fp16";
+src/backends/migraphx_backend.cpp:92:        case MiGraphXPrecision::Int8: return "int8";
+src/backends/migraphx_backend.cpp:97:ModelPrecision modelCompilePrecision(MiGraphXPrecision precision) {
+src/backends/migraphx_backend.cpp:99:        case MiGraphXPrecision::Fp32: return ModelPrecision::Fp32;
+src/backends/migraphx_backend.cpp:100:        case MiGraphXPrecision::Fp16: return ModelPrecision::Fp16;
+src/backends/migraphx_backend.cpp:101:        case MiGraphXPrecision::Int8: return ModelPrecision::Int8;
+src/backends/migraphx_backend.cpp:106:std::optional<MiGraphXPrecision> parseCompilePrecisionValue(std::string value) {
+src/backends/migraphx_backend.cpp:110:        return MiGraphXPrecision::Fp32;
+src/backends/migraphx_backend.cpp:113:        return MiGraphXPrecision::Fp16;
+src/backends/migraphx_backend.cpp:116:        return MiGraphXPrecision::Int8;
+src/backends/migraphx_backend.cpp:128:        return frame_io::RgbVideoSourceMode::VulkanTransfer;
+src/backends/migraphx_backend.cpp:132:        return frame_io::RgbVideoSourceMode::VulkanHardware;
+src/backends/migraphx_backend.cpp:169:            std::cerr << "[migraphx] WARNING: unsupported AVE_MIGRAPHX_OFFLOAD_COPY='"
+src/backends/migraphx_backend.cpp:177:            std::cerr << "[migraphx] WARNING: unsupported AVE_MIGRAPHX_PRECISION='"
+src/backends/migraphx_backend.cpp:183:        std::cerr << "[migraphx] WARNING: AVE_MIGRAPHX_OFFLOAD_COPY=0 requires HIP support; "
+src/backends/migraphx_backend.cpp:198:        std::cerr << "[migraphx] WARNING: unsupported AVE_MIGRAPHX_FRAME_SOURCE='"
+src/backends/migraphx_backend.cpp:222:bool hasAnyMiGraphXArtifact() {
+src/backends/migraphx_backend.cpp:223:    if (const auto bundledPrefix = bundledMiGraphXPrefix(); bundledPrefix.has_value()) {
+src/backends/migraphx_backend.cpp:224:        if (fileExists(((*bundledPrefix) / "bin" / "migraphx-driver").string())) {
+src/backends/migraphx_backend.cpp:227:        if (fileExists(((*bundledPrefix) / "lib" / "libmigraphx_c.so").string())) {
+src/backends/migraphx_backend.cpp:230:        if (fileExists(((*bundledPrefix) / "lib" / "migraphx" / "lib" / "libmigraphx.so").string())) {
+src/backends/migraphx_backend.cpp:235:    for (const auto& c : {"/opt/rocm/lib/libmigraphx.so",
+src/backends/migraphx_backend.cpp:236:                           "/opt/rocm/lib64/libmigraphx.so",
+src/backends/migraphx_backend.cpp:237:                           "/usr/lib/libmigraphx.so",
+src/backends/migraphx_backend.cpp:238:                           "/usr/lib64/libmigraphx.so"}) {
+src/backends/migraphx_backend.cpp:247:            if (fname.rfind("libmigraphx", 0) == 0) { return true; }
+src/backends/migraphx_backend.cpp:250:    return process_observer::commandInPath("migraphx-driver")
+src/backends/migraphx_backend.cpp:251:        || bundledMiGraphXDriverPath().has_value();
+src/backends/migraphx_backend.cpp:261:// Version helpers (for manifest key construction — MiGraphX builds only)
+src/backends/migraphx_backend.cpp:269:std::string getMiGraphXVersion() {
+src/backends/migraphx_backend.cpp:434:std::filesystem::path defaultMiGraphXProblemCachePath(const std::string& fingerprint) {
+src/backends/migraphx_backend.cpp:435:    return std::filesystem::path(defaultAveCacheDir()) / "migraphx" / "contexts"
+src/backends/migraphx_backend.cpp:440:    return std::filesystem::path(defaultAveCacheDir()) / "migraphx" / "contexts"
+src/backends/migraphx_backend.cpp:445:    return std::filesystem::path(defaultAveCacheDir()) / "migraphx" / "contexts"
+src/backends/migraphx_backend.cpp:467:std::string defaultMiGraphXEnableNhwcForProfile(const std::string& profile) {
+src/backends/migraphx_backend.cpp:474:std::string defaultMiGraphXEnableCkForProfile(const std::string& profile) {
+src/backends/migraphx_backend.cpp:483:bool applyDefaultMiGraphXProcessEnv(int deviceIdx, std::string& error) {
+src/backends/migraphx_backend.cpp:486:        {"MIGRAPHX_ENABLE_NHWC", defaultMiGraphXEnableNhwcForProfile(profile)},
+src/backends/migraphx_backend.cpp:487:        {"MIGRAPHX_ENABLE_CK", defaultMiGraphXEnableCkForProfile(profile)},
+src/backends/migraphx_backend.cpp:495:            error = std::string("Failed to set default MiGraphX environment ")
+src/backends/migraphx_backend.cpp:513:                error = std::string("Failed to set default MiGraphX environment ")
+src/backends/migraphx_backend.cpp:562:                error_ = "Failed to set MiGraphX runtime environment override "
+src/backends/migraphx_backend.cpp:922:    f.migraphxVersion = getMiGraphXVersion();
+src/backends/migraphx_backend.cpp:945:        .value_or(defaultMiGraphXEnableNhwcForProfile(f.compileProfile));
+src/backends/migraphx_backend.cpp:947:        .value_or(defaultMiGraphXEnableCkForProfile(f.compileProfile));
+src/backends/migraphx_backend.cpp:963:                      .value_or(defaultMiGraphXProblemCachePath(f.runtimeFingerprint).string()));
+src/backends/migraphx_backend.cpp:1005:std::string defaultModelIdFor(StageKind kind) {
+src/backends/migraphx_backend.cpp:2059:std::vector<StageKind> parseStageKindsCsvLocal(const std::string& value) {
+src/backends/migraphx_backend.cpp:2060:    std::vector<StageKind> out;
+src/backends/migraphx_backend.cpp:2108:std::vector<StageKind> stageControlScopes(const EnhancementStage& stage) {
+src/backends/migraphx_backend.cpp:2109:    std::vector<StageKind> scopes =
+src/backends/migraphx_backend.cpp:2110:        parseStageKindsCsvLocal(getStageStringParam(stage, "model_capabilities", ""));
+src/backends/migraphx_backend.cpp:2117:bool stageCapabilityRequested(const EnhancementStage& stage, const StageKind capability) {
+src/backends/migraphx_backend.cpp:2119:        parseStageKindsCsvLocal(getStageStringParam(stage, "fused_requested_capabilities", ""));
+src/backends/migraphx_backend.cpp:2127:                            const StageKind scope,
+src/backends/migraphx_backend.cpp:2387:    if (stage.kind != StageKind::Deblur) {
+src/backends/migraphx_backend.cpp:3418:// TensorDtype mapper (MiGraphX shape type → TensorDtype)
+src/backends/migraphx_backend.cpp:3421:TensorDtype mapMiGraphXType(migraphx_shape_datatype_t t) {
+src/backends/migraphx_backend.cpp:3423:        case migraphx_shape_float_type:       return TensorDtype::Fp32;
+src/backends/migraphx_backend.cpp:3424:        case migraphx_shape_half_type:        return TensorDtype::Fp16;
+src/backends/migraphx_backend.cpp:3425:        case migraphx_shape_bf16_type:        return TensorDtype::Bf16;
+src/backends/migraphx_backend.cpp:3426:        case migraphx_shape_int8_type:        return TensorDtype::Int8;
+src/backends/migraphx_backend.cpp:3427:        case migraphx_shape_fp8e4m3fnuz_type: return TensorDtype::Fp8E4M3FNUZ;
+src/backends/migraphx_backend.cpp:3536:    std::cerr << "[migraphx] WARNING: unsupported AVE_MIGRAPHX_MAPPED_STAGING='"
+src/backends/migraphx_backend.cpp:3626:        migraphx::onnx_options& options,
+src/backends/migraphx_backend.cpp:3627:        const migraphx::program_parameter_shapes& shapes,
+src/backends/migraphx_backend.cpp:3690:    if (precision != MiGraphXPrecision::Fp32 &&
+src/backends/migraphx_backend.cpp:3691:        precision != MiGraphXPrecision::Fp16 &&
+src/backends/migraphx_backend.cpp:3692:        precision != MiGraphXPrecision::Int8) {
+src/backends/migraphx_backend.cpp:3714:    migraphx::program          prog;
+src/backends/migraphx_backend.cpp:3715:    std::optional<migraphx::arguments> lastResults;
+src/backends/migraphx_backend.cpp:3716:    std::vector<migraphx::shape> inputShapes;
+src/backends/migraphx_backend.cpp:3749:struct MiGraphXBackend::Impl {
+src/backends/migraphx_backend.cpp:3756:    ModelManager    modelManager;
+src/backends/migraphx_backend.cpp:3760:    // Construct TensorContracts from MiGraphX parameter/output shapes.
+src/backends/migraphx_backend.cpp:3762:            const migraphx::program_parameter_shapes& shapes,
+src/backends/migraphx_backend.cpp:3774:            c.dtype       = mapMiGraphXType(shape.type());
+src/backends/migraphx_backend.cpp:3775:            // Build shape dims from MiGraphX lengths vector
+src/backends/migraphx_backend.cpp:3812:                    "MiGraphX backend requires a compiled .mxr artifact for inference.",
+src/backends/migraphx_backend.cpp:3829:                    std::cout << "[migraphx] using frame-size specific .mxr for '" << modelId
+src/backends/migraphx_backend.cpp:3833:                    std::cout << "[migraphx] using compiled .mxr for '" << modelId
+src/backends/migraphx_backend.cpp:3840:                    "Unable to compile model '" + modelId + "' for MiGraphX.",
+src/backends/migraphx_backend.cpp:3901:        AVE_ROCTX_RANGE("migraphx:load");
+src/backends/migraphx_backend.cpp:3909:            obs::logMiGraphXEnvironment(mp->runtimeFields, "runtime-load", sourcePath, "pending");
+src/backends/migraphx_backend.cpp:3914:                    "Unable to apply MiGraphX runtime environment overrides before model load.",
+src/backends/migraphx_backend.cpp:3920:            mp->prog = migraphx::load(sourcePath.c_str());
+src/backends/migraphx_backend.cpp:3953:                oc.dtype       = mapMiGraphXType(outShapes[i].type());
+src/backends/migraphx_backend.cpp:3964:            std::cout << "[migraphx] loaded model='" << modelId
+src/backends/migraphx_backend.cpp:3980:                std::string("MiGraphX load/compile failed: ") + ex.what(),
+src/backends/migraphx_backend.cpp:4024:                    "Unable to apply MiGraphX runtime environment overrides before eval.",
+src/backends/migraphx_backend.cpp:4070:                    "MiGraphXBackend::runInference (input gate)",
+src/backends/migraphx_backend.cpp:4079:        // Default path: offload_copy=1, so MiGraphX manages H2D/D2H copies
+src/backends/migraphx_backend.cpp:4120:            migraphx::argument inArg(inShape, inputArgData);
+src/backends/migraphx_backend.cpp:4122:            migraphx::program_parameters pp;
+src/backends/migraphx_backend.cpp:4178:                migraphx::argument auxArg(auxShape, auxArgData);
+src/backends/migraphx_backend.cpp:4184:            AVE_ROCTX_RANGE("migraphx:eval");
+src/backends/migraphx_backend.cpp:4203:                        "MiGraphXBackend::runInference (output gate)",
+src/backends/migraphx_backend.cpp:4215:            // With offload_copy=1, MiGraphX returns CPU-accessible output.
+src/backends/migraphx_backend.cpp:4219:            outputDtype = mapMiGraphXType(outShape.type());
+src/backends/migraphx_backend.cpp:4224:                    "MiGraphX returned a null output pointer for '" + modelId + "'.").format();
+src/backends/migraphx_backend.cpp:4247:                            std::cerr << "[migraphx] WARNING: " << mappedBufferError
+src/backends/migraphx_backend.cpp:4278:                std::string("MiGraphX eval: ") + ex.what(),
+src/backends/migraphx_backend.cpp:4288:struct MiGraphXBackend::Impl {
+src/backends/migraphx_backend.cpp:4312:        error = "MiGraphX hardware support was not compiled into this build (-DAVE_HAVE_MIGRAPHX=OFF).";
+src/backends/migraphx_backend.cpp:4323:MiGraphXBackend::MiGraphXBackend()  : impl_(std::make_unique<Impl>()) {
+src/backends/migraphx_backend.cpp:4326:    if (!applyDefaultMiGraphXProcessEnv(defaultDeviceIdx, initEnvError)) {
+src/backends/migraphx_backend.cpp:4327:        std::cerr << "[migraphx] WARNING: failed to prime default MiGraphX environment: "
+src/backends/migraphx_backend.cpp:4332:MiGraphXBackend::~MiGraphXBackend() = default;
+src/backends/migraphx_backend.cpp:4334:BackendType MiGraphXBackend::type()  const { return BackendType::MiGraphX; }
+src/backends/migraphx_backend.cpp:4335:std::string MiGraphXBackend::name()  const { return "MiGraphX (ROCm)"; }
+src/backends/migraphx_backend.cpp:4336:bool MiGraphXBackend::supportsDirectOutputEncode() const { return true; }
+src/backends/migraphx_backend.cpp:4338:bool MiGraphXBackend::isAvailable(std::string& reason) const {
+src/backends/migraphx_backend.cpp:4344:    if (!hasAnyMiGraphXArtifact()) {
+src/backends/migraphx_backend.cpp:4345:        reason = "MiGraphX runtime not found (system or bundled libmigraphx / migraphx-driver).";
+src/backends/migraphx_backend.cpp:4348:    reason = "MiGraphX runtime detected.";
+src/backends/migraphx_backend.cpp:4351:    reason = "MiGraphX hardware support was not compiled into this build (-DAVE_HAVE_MIGRAPHX=OFF).";
+src/backends/migraphx_backend.cpp:4356:bool MiGraphXBackend::initialize(std::string& error) {
+src/backends/migraphx_backend.cpp:4360:            "MiGraphX init: " + reason).format();
+src/backends/migraphx_backend.cpp:4367:            "MiGraphX init: invalid compile/runtime options.",
+src/backends/migraphx_backend.cpp:4387:        std::cout << "[migraphx] " << deviceSelectionDetail << std::endl;
+src/backends/migraphx_backend.cpp:4392:        std::cout << "[migraphx] HIP device " << impl_->deviceIdx
+src/backends/migraphx_backend.cpp:4403:    if (!applyDefaultMiGraphXProcessEnv(impl_->deviceIdx, error)) {
+src/backends/migraphx_backend.cpp:4405:            "MiGraphX init: unable to apply default runtime tuning environment.",
+src/backends/migraphx_backend.cpp:4415:        std::cerr << "[migraphx] WARNING: HIP enumerated " << devCount
+src/backends/migraphx_backend.cpp:4418:                  << "if MiGraphX compilation is flaky, pin the intended discrete GPU with HIP_VISIBLE_DEVICES."
+src/backends/migraphx_backend.cpp:4425:    obs::logMiGraphXEnvironment();
+src/backends/migraphx_backend.cpp:4428:        std::cout << "[migraphx] experimental device tensor path enabled "
+src/backends/migraphx_backend.cpp:4430:                     "until Vulkan/HIP interop is wired into the frame loop."
+src/backends/migraphx_backend.cpp:4434:    std::cout << "[backend] MiGraphX initialised on device " << impl_->deviceIdx
+src/backends/migraphx_backend.cpp:4439:void MiGraphXBackend::setCompileOptions(const CompileOptions& opts) {
+src/backends/migraphx_backend.cpp:4443:CompileOptions MiGraphXBackend::compileOptions() const {
+src/backends/migraphx_backend.cpp:4447:bool MiGraphXBackend::preloadModel(const std::string& modelId, std::string& error) {
+src/backends/migraphx_backend.cpp:4452:void MiGraphXBackend::evictModel(const std::string& modelId) {
+src/backends/migraphx_backend.cpp:4471:void MiGraphXBackend::evictAll() {
+src/backends/migraphx_backend.cpp:4483:int MiGraphXBackend::deviceIndex() const { return impl_->deviceIdx; }
+src/backends/migraphx_backend.cpp:4486:MiGraphXBackend::inputContracts(const std::string& modelId) const {
+src/backends/migraphx_backend.cpp:4499:MiGraphXBackend::outputContracts(const std::string& modelId) const {
+src/backends/migraphx_backend.cpp:4511:StageResult MiGraphXBackend::runStage(const EnhancementStage& stage, std::string& error) {
+src/backends/migraphx_backend.cpp:4516:        std::cout << "[migraphx] no model configured for " << toString(stage.kind)
+src/backends/migraphx_backend.cpp:4517:                  << " — deferring to FFmpeg filter chain." << std::endl;
+src/backends/migraphx_backend.cpp:4523:        std::cout << "[migraphx] stage '" << toString(stage.kind)
+src/backends/migraphx_backend.cpp:4546:            std::cerr << "[migraphx] WARNING: model not ready for stage '"
+src/backends/migraphx_backend.cpp:4548:                      << "\n  → Deferring to FFmpeg filter chain." << std::endl;
+src/backends/migraphx_backend.cpp:4555:    // processVideoFile() which is called by the FFmpeg encode pipeline.
+src/backends/migraphx_backend.cpp:4558:    AVE_ROCTX_MARK("migraphx:stage-model-ready");
+src/backends/migraphx_backend.cpp:4559:    std::cout << "[migraphx] model='" << modelId
+src/backends/migraphx_backend.cpp:4585:StageResult MiGraphXBackend::processVideoFile(
+src/backends/migraphx_backend.cpp:4594:        std::cerr << "[migraphx] processVideoFile: " << detail
+src/backends/migraphx_backend.cpp:4595:                  << "\n  → Deferring to FFmpeg." << std::endl;
+src/backends/migraphx_backend.cpp:4604:        std::cout << "[migraphx] processVideoFile: no model for "
+src/backends/migraphx_backend.cpp:4609:    // ── Probe video dimensions via ffprobe (reliable, no Vulkan HW needed) ──
+src/backends/migraphx_backend.cpp:4618:    const bool stereo3dStage = stage.kind == StageKind::Stereo3D;
+src/backends/migraphx_backend.cpp:4620:    std::cout << "[migraphx] Input: " << inW << "x" << inH
+src/backends/migraphx_backend.cpp:4643:        std::cout << "[migraphx] full-frame compile preferred: requesting model input "
+src/backends/migraphx_backend.cpp:4659:        std::cout << "[migraphx] stereo depth resolution requested="
+src/backends/migraphx_backend.cpp:4698:                    std::cout << "[migraphx] reusing validated tile batch "
+src/backends/migraphx_backend.cpp:4705:        std::cout << "[migraphx] adaptive tile batch selected: "
+src/backends/migraphx_backend.cpp:4715:            std::cerr << "[migraphx] processVideoFile: model load failed: "
+src/backends/migraphx_backend.cpp:4716:                      << error << "\n  → Deferring to FFmpeg." << std::endl;
+src/backends/migraphx_backend.cpp:4801:        std::cout << "[migraphx] requested tile batch " << tileConfig.batch
+src/backends/migraphx_backend.cpp:4819:        std::cout << "[migraphx] reducing tile overlap from " << tileConfig.overlap
+src/backends/migraphx_backend.cpp:4831:    if (!stereo3dStage && stage.kind == StageKind::Upscale) {
+src/backends/migraphx_backend.cpp:4884:    loopOptions.backendTag = "migraphx";
+src/backends/migraphx_backend.cpp:4885:    loopOptions.progressLabel = "MiGraphX";
+src/backends/migraphx_backend.cpp:4901:    // ── Open FFmpeg encode pipe (software encode — always works) ──
+src/backends/migraphx_backend.cpp:4902:    const auto encodeLogPath = makeTempLogPath("ave_migraphx_encode");
+src/backends/migraphx_backend.cpp:4943:    AVE_ROCTX_RANGE("migraphx:processVideoFile");
+src/backends/migraphx_backend.cpp:4947:    std::cout << "[migraphx] processVideoFile: model='" << modelId
+src/backends/migraphx_backend.cpp:5007:            std::cout << "[migraphx] using HIP mapped host staging for input tiles "
+src/backends/migraphx_backend.cpp:5011:            std::cerr << "[migraphx] WARNING: " << mappedBufferError
+src/backends/migraphx_backend.cpp:5029:        std::cout << "[migraphx] warming compiled program for '" << modelId
+src/backends/migraphx_backend.cpp:5031:        obs::logMiGraphXEnvironment(
+src/backends/migraphx_backend.cpp:5044:                    "Unable to apply MiGraphX runtime environment overrides for the encode session.",
+src/backends/migraphx_backend.cpp:5090:            error = formatEncodeFailure("MiGraphX warmup failed: " + warmupError, encodeStatus);
+src/backends/migraphx_backend.cpp:5099:        obs::logMiGraphXEnvironment(
+src/backends/migraphx_backend.cpp:5138:                    "Unable to apply MiGraphX runtime environment overrides for the encode session.",
+src/backends/migraphx_backend.cpp:5181:                    std::cout << "[migraphx] preserved Vulkan hardware frames reached the "
+src/backends/migraphx_backend.cpp:5182:                                 "MiGraphX backend boundary; packet preparation is now owned "
+src/backends/migraphx_backend.cpp:5183:                                 "inside MiGraphX, with RGB fallback only for unsupported CPU "
+src/backends/migraphx_backend.cpp:5303:                    std::cerr << "[migraphx] Frame " << frameIdx
+src/backends/migraphx_backend.cpp:5427:                std::cerr << "[migraphx] Frame " << frameIdx
+src/backends/migraphx_backend.cpp:5471:                ? "FFmpeg encode pipe exited after MiGraphX processing."
+src/backends/migraphx_backend.cpp:5480:            "FFmpeg encode pipe exited after MiGraphX processing.",
+src/backends/migraphx_backend.cpp:5500:    std::cout << "[migraphx] AI inference complete: " << frameIdx
+src/backends/migraphx_backend.cpp:5501:              << " frames processed via MiGraphX for stage "
+src/backends/migraphx_backend.cpp:5503:    std::cout << "[migraphx] timing: total=" << totalSeconds
+src/backends/migraphx_backend.cpp:5514:        progressCb(1.0f, "MiGraphX inference complete — " + std::to_string(frameIdx) + " frames.");
+src/backends/migraphx_backend.cpp:5524:    error = "MiGraphX backend not compiled (-DAVE_HAVE_MIGRAPHX=OFF).";
+src/backends/ncnn_vulkan_backend.cpp:2:// NCNN Vulkan Backend – full implementation
+src/backends/ncnn_vulkan_backend.cpp:3:// Conditionally compiled against AVE_HAVE_NCNN.
+src/backends/ncnn_vulkan_backend.cpp:4:// When absent, falls back to FFmpeg filter pipeline for all stages.
+src/backends/ncnn_vulkan_backend.cpp:33:#ifdef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:42:bool hasVulkanSignal() {
+src/backends/ncnn_vulkan_backend.cpp:68:    if (const auto explicitNcnn = readNonNegativeEnvIntN("AVE_NCNN_GPU_INDEX"); explicitNcnn.has_value()) {
+src/backends/ncnn_vulkan_backend.cpp:74:#ifdef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:107:std::string defaultModelIdFor(StageKind kind) {
+src/backends/ncnn_vulkan_backend.cpp:108:    if (const auto* preferred = preferredBackendModelForStage(kind, BackendType::NcnnVulkan);
+src/backends/ncnn_vulkan_backend.cpp:131:#ifdef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:140:struct NcnnVulkanBackend::Impl {
+src/backends/ncnn_vulkan_backend.cpp:149:        ModelManager mgr;
+src/backends/ncnn_vulkan_backend.cpp:155:            error = "NCNN model '" + modelId + "' not downloaded. Use Model Manager.";
+src/backends/ncnn_vulkan_backend.cpp:159:            error = "Model '" + modelId + "' is not an NCNN model (.param/.bin).";
+src/backends/ncnn_vulkan_backend.cpp:163:            error = "NCNN model '" + modelId + "' is missing its .bin weights file.";
+src/backends/ncnn_vulkan_backend.cpp:176:            error = "NCNN: load_param failed for " + nn->paramPath;
+src/backends/ncnn_vulkan_backend.cpp:180:            error = "NCNN: load_model failed for " + nn->binPath;
+src/backends/ncnn_vulkan_backend.cpp:189:#else  // !AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:191:struct NcnnVulkanBackend::Impl {
+src/backends/ncnn_vulkan_backend.cpp:198:        error = "NCNN Vulkan backend is not compiled in this build (AVE_HAVE_NCNN=OFF).";
+src/backends/ncnn_vulkan_backend.cpp:203:#endif // AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:209:NcnnVulkanBackend::NcnnVulkanBackend()  : impl_(std::make_unique<Impl>()) {}
+src/backends/ncnn_vulkan_backend.cpp:210:NcnnVulkanBackend::~NcnnVulkanBackend() {
+src/backends/ncnn_vulkan_backend.cpp:211:#ifdef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:220:BackendType NcnnVulkanBackend::type()  const { return BackendType::NcnnVulkan; }
+src/backends/ncnn_vulkan_backend.cpp:221:std::string NcnnVulkanBackend::name()  const { return "NCNN (Vulkan)"; }
+src/backends/ncnn_vulkan_backend.cpp:223:bool NcnnVulkanBackend::isAvailable(std::string& reason) const {
+src/backends/ncnn_vulkan_backend.cpp:224:#ifndef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:225:    reason = "NCNN backend support is not compiled in this build (AVE_HAVE_NCNN=OFF).";
+src/backends/ncnn_vulkan_backend.cpp:228:    if (!hasVulkanSignal()) {
+src/backends/ncnn_vulkan_backend.cpp:229:        reason = "Vulkan runtime not detected (expected vulkaninfo or libvulkan).";
+src/backends/ncnn_vulkan_backend.cpp:232:    reason = "NCNN Vulkan runtime detected and ready.";
+src/backends/ncnn_vulkan_backend.cpp:237:bool NcnnVulkanBackend::initialize(std::string& error) {
+src/backends/ncnn_vulkan_backend.cpp:239:    if (!isAvailable(reason)) { error = "NCNN Vulkan init: " + reason; return false; }
+src/backends/ncnn_vulkan_backend.cpp:241:#ifdef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:246:        error = "NCNN: no Vulkan GPU devices found.";
+src/backends/ncnn_vulkan_backend.cpp:252:            error = "NCNN: requested GPU index " + std::to_string(*preferredGpu)
+src/backends/ncnn_vulkan_backend.cpp:262:    std::cout << "[backend] NCNN Vulkan initialised on GPU " << impl_->gpuIdx << std::endl;
+src/backends/ncnn_vulkan_backend.cpp:266:bool NcnnVulkanBackend::preloadModel(const std::string& modelId, std::string& error) {
+src/backends/ncnn_vulkan_backend.cpp:271:void NcnnVulkanBackend::evictModel(const std::string& modelId) {
+src/backends/ncnn_vulkan_backend.cpp:273:#ifdef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:280:void NcnnVulkanBackend::evictAll() {
+src/backends/ncnn_vulkan_backend.cpp:282:#ifdef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:287:int NcnnVulkanBackend::gpuIndex() const { return impl_->gpuIdx; }
+src/backends/ncnn_vulkan_backend.cpp:289:StageResult NcnnVulkanBackend::runStage(const EnhancementStage& stage, std::string& error) {
+src/backends/ncnn_vulkan_backend.cpp:293:                  << " — deferring to FFmpeg filter chain." << std::endl;
+src/backends/ncnn_vulkan_backend.cpp:302:                      << "\n  → Deferring to FFmpeg filter chain." << std::endl;
+src/backends/ncnn_vulkan_backend.cpp:314:// processVideoFile — real per-frame NCNN Vulkan inference
+src/backends/ncnn_vulkan_backend.cpp:321:StageResult NcnnVulkanBackend::processVideoFile(
+src/backends/ncnn_vulkan_backend.cpp:329:#ifndef AVE_HAVE_NCNN
+src/backends/ncnn_vulkan_backend.cpp:331:    error = "NCNN support not compiled (AVE_HAVE_NCNN=OFF).";
+src/backends/ncnn_vulkan_backend.cpp:349:            error = "NCNN model disappeared after loading: " + modelId;
+src/backends/ncnn_vulkan_backend.cpp:366:    // NCNN super-resolution models: input = source, output = source * scale
+src/backends/ncnn_vulkan_backend.cpp:370:        if (tryGetInt(stage, StageKind::Upscale, "scale", scaleValue)) {
+src/backends/ncnn_vulkan_backend.cpp:386:        if (tryGetInt(stage, StageKind::Upscale, "width", widthValue) &&
+src/backends/ncnn_vulkan_backend.cpp:387:            tryGetInt(stage, StageKind::Upscale, "height", heightValue)) {
+src/backends/ncnn_vulkan_backend.cpp:414:    loopOptions.progressLabel = "NCNN";
+src/backends/ncnn_vulkan_backend.cpp:416:    loopOptions.preferredSourceMode = frame_io::RgbVideoSourceMode::VulkanTransfer;
+src/backends/ncnn_vulkan_backend.cpp:437:                    loopError = "NCNN: failed to set input tensor (tried 'data' and 'input')";
+src/backends/ncnn_vulkan_backend.cpp:445:                loopError = "NCNN: failed to extract output tensor (blob 'output')";
+src/backends/ncnn_vulkan_backend.cpp:453:                loopError = "NCNN output dimensions do not match the configured frame size: expected "
+src/backends/ncnn_vulkan_backend.cpp:459:                loopError = "NCNN output has unexpected shape: c=" + std::to_string(outCh)
+src/backends/ncnn_vulkan_backend.cpp:496:#endif  // AVE_HAVE_NCNN
+src/backends/vulkan_compute_backend.cpp:2:// Vulkan Compute Backend — GPU image processing via compute shaders
+src/backends/vulkan_compute_backend.cpp:57:std::optional<int> preferredVulkanDeviceIndexFromEnv() {
+src/backends/vulkan_compute_backend.cpp:466:// ─── Map StageKind to shader ────────────────────────────────────
+src/backends/vulkan_compute_backend.cpp:468:const char* shaderSourceForStage(StageKind kind) {
+src/backends/vulkan_compute_backend.cpp:470:        case StageKind::Sharpen:            return kSharpenGlsl;
+src/backends/vulkan_compute_backend.cpp:471:        case StageKind::Denoise:            return kDenoiseGlsl;
+src/backends/vulkan_compute_backend.cpp:472:        case StageKind::Dehalo:             return kDehaloGlsl;
+src/backends/vulkan_compute_backend.cpp:473:        case StageKind::Deblur:             return kDeblurGlsl;
+src/backends/vulkan_compute_backend.cpp:474:        case StageKind::Upscale:            return kUpscaleGlsl;
+src/backends/vulkan_compute_backend.cpp:479:std::string shaderCacheKey(StageKind kind) {
+src/backends/vulkan_compute_backend.cpp:483:float defaultStrength(StageKind kind) {
+src/backends/vulkan_compute_backend.cpp:485:        case StageKind::Sharpen:   return 1.0f;
+src/backends/vulkan_compute_backend.cpp:486:        case StageKind::Denoise:   return 1.5f;
+src/backends/vulkan_compute_backend.cpp:487:        case StageKind::Dehalo:    return 0.6f;
+src/backends/vulkan_compute_backend.cpp:488:        case StageKind::Deblur:    return 1.0f;
+src/backends/vulkan_compute_backend.cpp:489:        case StageKind::Upscale:   return 2.0f; // scale factor
+src/backends/vulkan_compute_backend.cpp:497:// Impl — Vulkan pipeline management
+src/backends/vulkan_compute_backend.cpp:499:struct VulkanComputeBackend::Impl {
+src/backends/vulkan_compute_backend.cpp:524:    bool getOrCreatePipeline(StageKind kind, Pipeline& out, std::string& error);
+src/backends/vulkan_compute_backend.cpp:537:VulkanComputeBackend::VulkanComputeBackend()
+src/backends/vulkan_compute_backend.cpp:540:VulkanComputeBackend::~VulkanComputeBackend() {
+src/backends/vulkan_compute_backend.cpp:550:BackendType VulkanComputeBackend::type() const { return BackendType::VulkanCompute; }
+src/backends/vulkan_compute_backend.cpp:551:std::string VulkanComputeBackend::name() const { return "Vulkan Compute"; }
+src/backends/vulkan_compute_backend.cpp:553:bool VulkanComputeBackend::isAvailable(std::string& reason) const {
+src/backends/vulkan_compute_backend.cpp:556:        reason = "glslc (Vulkan SDK shader compiler) not found in PATH.";
+src/backends/vulkan_compute_backend.cpp:559:    // Quick check: can we even load Vulkan?
+src/backends/vulkan_compute_backend.cpp:562:        reason = "Vulkan loader not functional.";
+src/backends/vulkan_compute_backend.cpp:567:    reason = "Vulkan support not compiled in (AVE_HAVE_VULKAN=OFF).";
+src/backends/vulkan_compute_backend.cpp:572:bool VulkanComputeBackend::initialize(std::string& error) {
+src/backends/vulkan_compute_backend.cpp:582:    std::cout << "[vulkan-compute] Initialised Vulkan compute backend." << std::endl;
+src/backends/vulkan_compute_backend.cpp:585:    error = "Vulkan support not compiled in.";
+src/backends/vulkan_compute_backend.cpp:590:StageResult VulkanComputeBackend::runStage(
+src/backends/vulkan_compute_backend.cpp:595:        // No shader for this stage — defer to FFmpeg
+src/backends/vulkan_compute_backend.cpp:601:        error = "Vulkan compute backend not initialised.";
+src/backends/vulkan_compute_backend.cpp:610:                  << "\n  → Deferring to FFmpeg." << std::endl;
+src/backends/vulkan_compute_backend.cpp:620:    error = "Vulkan not compiled in.";
+src/backends/vulkan_compute_backend.cpp:625:StageResult VulkanComputeBackend::processVideoFile(
+src/backends/vulkan_compute_backend.cpp:638:        error = "Vulkan compute backend not initialised.";
+src/backends/vulkan_compute_backend.cpp:661:        if (stage.kind == StageKind::Upscale) {
+src/backends/vulkan_compute_backend.cpp:662:            if (tryGetDouble(stage, StageKind::Upscale, "scale", value)) {
+src/backends/vulkan_compute_backend.cpp:681:    if (stage.kind == StageKind::Upscale) {
+src/backends/vulkan_compute_backend.cpp:685:        if (tryGetDouble(stage, StageKind::Upscale, "width", widthValue) &&
+src/backends/vulkan_compute_backend.cpp:686:            tryGetDouble(stage, StageKind::Upscale, "height", heightValue)) {
+src/backends/vulkan_compute_backend.cpp:720:    loopOptions.progressLabel = "Vulkan compute";
+src/backends/vulkan_compute_backend.cpp:722:    loopOptions.preferredSourceMode = frame_io::RgbVideoSourceMode::VulkanTransfer;
+src/backends/vulkan_compute_backend.cpp:765:              << " frames via Vulkan compute for " << toString(stage.kind)
+src/backends/vulkan_compute_backend.cpp:770:    error = "Vulkan not compiled in.";
+src/backends/vulkan_compute_backend.cpp:776:// Vulkan pipeline implementation
+src/backends/vulkan_compute_backend.cpp:780:bool VulkanComputeBackend::Impl::createDevice(std::string& error) {
+src/backends/vulkan_compute_backend.cpp:784:    appInfo.pApplicationName = "AVE Vulkan Compute";
+src/backends/vulkan_compute_backend.cpp:795:        error = "Failed to create Vulkan instance.";
+src/backends/vulkan_compute_backend.cpp:803:        error = "No Vulkan-capable GPUs found.";
+src/backends/vulkan_compute_backend.cpp:810:    if (const auto preferredDevice = preferredVulkanDeviceIndexFromEnv(); preferredDevice.has_value()) {
+src/backends/vulkan_compute_backend.cpp:815:            std::cout << "[vulkan-compute] Using explicit Vulkan device index "
+src/backends/vulkan_compute_backend.cpp:818:            error = "Requested Vulkan device index " + std::to_string(*preferredDevice)
+src/backends/vulkan_compute_backend.cpp:892:        error = "Failed to create Vulkan logical device.";
+src/backends/vulkan_compute_backend.cpp:930:void VulkanComputeBackend::Impl::destroyDevice() {
+src/backends/vulkan_compute_backend.cpp:950:bool VulkanComputeBackend::Impl::getOrCreatePipeline(
+src/backends/vulkan_compute_backend.cpp:951:        StageKind kind, Pipeline& out, std::string& error) {
